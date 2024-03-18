@@ -1,0 +1,63 @@
+/* -- coloring -- */
+/* used for cat */
+/* you can edit them if you want */
+
+b {
+	font-weight: normal;
+}
+/* primary */
+.red {
+	color: #f00;
+}
+.green {
+	color: #0f0;
+}
+.blue {
+	color: #00f;
+}
+
+/* secondary */
+.yellow {
+	color: #ff0;
+}
+.cyan {
+	color: #0ff;
+}
+.magenta {
+	color: #f0f;
+}
+
+/* black and white */
+.white {
+	color: #fff;
+}
+.gray {
+	color: #888;
+}
+.black {
+	color: #000;
+}
+
+.dark {
+	filter: brightness(50%);
+}
+.darker {
+	filter: brightness(25%);
+}
+.light {
+	filter: brightness(150%);
+}
+.lighter {
+	filter: brightness(175%);
+}
+
+/* special */
+.bold {
+	font-weight:bold;
+}
+.bolder {
+	font-weight:bolder;
+}
+.neg {
+	mix-blend-mode: difference;
+}

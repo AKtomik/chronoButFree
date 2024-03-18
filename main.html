@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<head>
+ 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link rel="icon" href="source/icon/icon.ico" />
+ 	
+	<link href="packer.css" rel="stylesheet" />
+ 	<link href="coloration.css" rel="stylesheet" />
+ 	<link href="main.css" rel="stylesheet" />
+	
+	<title>
+		chrono mais gratuit
+	</title>
+</head>
+<body>
+
+<div id="box_full">
+<div id="box_square">
+<!-- svg -->
+	<div id="box_clock">
+	<svg viewBox="0 0 1000 1000">
+		  
+	<!-- grid -->
+		<defs>
+			<pattern id="grid_1" width="10" height="10" patternUnits="userSpaceOnUse">
+				<rect x="0" y="0" width="10" height="10" fill="none" stroke="#fff"	stroke-width="1"/>
+			</pattern>
+		</defs>
+		<rect x="0" y="0" width="100%" height="100%" fill="url(#grid_1)"/>
+		  
+		<defs>
+			<pattern id="grid_2" width="100" height="100" patternUnits="userSpaceOnUse">
+				<rect x="0" y="0" width="100" height="100" fill="none" stroke="#ffff" stroke-width="2"/>
+			</pattern>
+		</defs>
+		<rect x="0" y="0" width="100%" height="100%" fill="url(#grid_2)"/>
+
+
+	<!-- alpha elements -->
+		<rect x="10%" y="10%" width="80%" height="80%" fill="#f003"></rect>
+		<ellipse cx="50%" cy="50%" rx="40%" ry="40%" fill="#f007"></ellipse>
+
+	<!-- dynamic elements -->
+		<line x1="50%" y1="10%" x2="50%" y2="50%" stroke-width="10px" stroke="#000f">
+
+	</svg>
+	</div>
+
+<!-- texts -->
+	<div id="box_text">
+	<div id="box_text_time">
+
+	<div id="box_text_super">
+	<p id="text_title" class="neg white">
+		indev
+	</p>
+	</div>
+
+	<!-- timer -->
+		<div id="box_text_middle">
+		<p id="timer_m" class="neg white">0</p>
+		<p id="timer_wrap1" class="neg white">:</p>
+		<p id="timer_s" class="neg white">00</p>
+		<p id="timer_wrap2" class="neg white">.</p>
+		<p id="timer_ms" class="neg white">000</p>
+		</div>
+	
+	<div id="box_text_sub">
+	<p id="text_comment" class="neg white">
+		zero. for now.
+	</p>
+	</div>
+	
+	</div>
+	</div>
+
+</div>
+</div>
+
+<!-- cat message -->
+	<aside>
+	<p id="msg_cat">
+		-
+	</p>
+	<p id="msg_the" class="neg magenta">
+		Chrono mais gratuit
+	</p>
+	</aside>
+
+</body>
+
+<!--javascripts must be loaded after-->
+<script type="text/javascript" src="./cat.js"></script>
+<script type="text/javascript" src="./main.js"></script>

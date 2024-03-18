@@ -1,0 +1,53 @@
+/* custom fonts */
+@font-face {
+  font-family: 'code';
+  src: url(./source/fonts/code.ttf);
+}
+@font-face {
+  font-family: 'texto';
+  src: url(./source/fonts/talk.otf);
+}
+@font-face {
+  font-family: 'digits';
+  src: url(./source/fonts/digits.ttf);
+}
+
+body {
+	/* clock */
+
+	/* text */
+	#box_text {
+		font-family: 'digits';
+		#timer_m {
+			font-size: 0vmin;
+		}
+		#timer_wrap1 {
+			font-size: 0vmin;
+		}
+		#timer_s {
+			font-size: 20vmin;
+		}
+		#timer_wrap2 {
+			font-size: 10vmin;
+		}
+		#timer_ms {
+			font-size: 10vmin;
+		}
+
+		#text_title {
+			font-size: 10vmin;
+		}
+		#text_comment {
+			font-size: 5vmin;
+		}
+	}
+
+	aside {
+		font-family: 'code';
+
+		#msg_cat {
+			color:#fff;
+		}
+		/*#msg_the {}*/
+	}
+}

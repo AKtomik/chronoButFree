@@ -1,0 +1,92 @@
+/* -- boxs -- */
+body {
+background-color: #fff;/*dbug*/
+
+	margin: 0;
+	padding: 0;
+	#box_full {
+		width: 100vw;
+		height: 100vh;
+		
+		background-color: #000;/*dbug*/
+
+		/* the box with the timer and its items */
+		
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: inherit;
+
+		#box_square {
+			width: 90vmin;
+			height: 90vmin;
+			
+			background-color: #3af;/*dbug*/
+			
+			/* for all layers */
+			position: relative;/*to overlaps*/
+			#box_clock, #box_text {
+				width: 100%;
+				height: 100%;
+
+				position: absolute;
+			}
+			
+			
+			/* the box for the clock svg */
+			/*#box_clock {}*/
+
+			/* the box for all texts */
+			#box_text {
+
+
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+				position: inherit;
+				white-space: nowrap;
+				
+				#box_text_middle, #box_text_sub, #box_text_super {
+					
+					font-size: 0;/* no space between items*/
+					/*background-color: #0f07;dbug*/
+					
+					p {
+					margin:0;
+					padding:0;
+					display: inline;
+					}
+				}
+				
+				/*#box_text_middle {}*/
+
+				/*#box_text_sub {
+					position: absolute;
+					top: 65%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+				}*/
+			}
+		}
+	}
+
+	
+
+
+	aside {
+		position: absolute;
+		right:1vmax;
+		bottom:0vmax;
+		text-align: right;
+
+
+		#msg_cat {
+			font-size:1vmax;
+		}
+		#msg_the {
+			font-size:1vmax;
+		}
+
+	}
+}
