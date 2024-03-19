@@ -5,6 +5,9 @@ let span_loading_end=0;
 //let span_timer_end=0;
 
 
+
+const sett_dec=1;
+
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
 /**
@@ -17,6 +20,8 @@ cat_add("variables...","neg gray");
 
 let timer_diff_ms=0.;
 let timer_begin=0.;
+
+let display_timer_is_m=true;
 
 
 let display_timer=
@@ -142,23 +147,59 @@ function chrono_display_switch(f_state)
  */
 function chrono_display_refresh()
 {
-	//cat_add(`${timer_diff_ms} ms`,"neg gray");
+	{//trigger minute
+		let here_mIs=timer_diff_ms>60000;
+		if (display_timer_is_m != here_mIs)
+		{
+			display_timer_is_m = here_mIs;
+			if (display_timer_is_m)
+			{//minutes on
+				display_timer[2].style.display="";
+				display_timer_wrap[0].style.display="";
+			}
+			else 
+			{//minutes off
+				display_timer[2].style.display="none";
+				display_timer_wrap[0].style.display="none";
+			}
+		}
+	}
+
+
+
+	//each digits
+	let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
 	{
-		let here_text=String(parseInt(timer_diff_ms)%1000);
-		while (here_text.length<3)
+		let here_parth=here_time%10**sett_dec;
+		here_time=parseInt(here_time/10**sett_dec);
+		
+		let here_text=String(here_parth);
+		while (here_text.length<sett_dec)
 		{
 			here_text="0"+here_text;
 		}
 		display_timer[0].innerHTML=here_text;
 	}
-	display_timer[2].innerHTML=String(parseInt(timer_diff_ms/60000));
+
 	{
-		let here_text=String(parseInt(timer_diff_ms/1000)%60);
-		while (here_text.length<2 && timer_diff_ms>60000)
+		let here_parth=here_time%60;
+		here_time=parseInt(here_time/60);
+		
+		let here_text=String(here_parth);
+		if (display_timer_is_m)
 		{
-			here_text="0"+here_text;
+			while (here_text.length<2)
+			{
+				here_text="0"+here_text;
+			}
 		}
 		display_timer[1].innerHTML=here_text;
+	}
+
+	if (display_timer_is_m)
+	{
+		let here_parth=here_time;
+		display_timer[2].innerHTML=String(here_parth);
 	}
 }
 
@@ -175,4 +216,4 @@ setInterval(
 function(){//anonymous function
 timer_diff_ms = Date.now() - timer_begin;//ms
 chrono_display_refresh();
-}, 10);
+}, 10**(2-sett_dec));

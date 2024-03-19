@@ -19,10 +19,10 @@ body {
 	#box_text {
 		font-family: 'digits';
 		#timer_m {
-			font-size: 0vmin;
+			font-size: 20vmin;
 		}
 		#timer_wrap1 {
-			font-size: 0vmin;
+			font-size: 20vmin;
 		}
 		#timer_s {
 			font-size: 20vmin;
