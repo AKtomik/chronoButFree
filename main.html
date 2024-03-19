@@ -5,6 +5,7 @@
  	
 	<link href="packer.css" rel="stylesheet" />
  	<link href="coloration.css" rel="stylesheet" />
+ 	<link href="vectors.css" rel="stylesheet" />
  	<link href="main.css" rel="stylesheet" />
 	
 	<title>
@@ -36,11 +37,12 @@
 
 
 	<!-- alpha elements -->
-		<rect x="10%" y="10%" width="80%" height="80%" fill="#f003"></rect>
-		<ellipse cx="50%" cy="50%" rx="40%" ry="40%" fill="#f007"></ellipse>
+		<rect id="vector_alpha_rectangle" x="10%" y="10%" width="80%" height="80%"></rect>
+		<circle id="vector_alpha_circle" cx="50%" cy="50%" r="40%"></circle>
 
 	<!-- dynamic elements -->
-		<line x1="50%" y1="10%" x2="50%" y2="50%" stroke-width="10px" stroke="#000f">
+		<line id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
+		<circle id="vector_dynamic_circle" cx="50%" cy="50%" r="40%"></circle>
 
 	</svg>
 	</div>

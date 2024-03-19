@@ -1,9 +1,6 @@
 cat_add("chargement...","neg white bold");
 let span_loading_begin=Date.now();//new getting timespan for time difference
 let span_loading_end=0;
-//let span_timer_begin=0;
-//let span_timer_end=0;
-
 
 
 const sett_dec=1;
@@ -20,6 +17,9 @@ cat_add("variables...","neg gray");
 
 let timer_diff_ms=0.;
 let timer_begin=0.;
+let timer_max=0.;
+let timer_reverse=false;//if countdown, else countup
+let timer_id=0;
 
 let display_timer_is_m=true;
 
@@ -35,6 +35,10 @@ let display_timer_wrap=
 	document.getElementById("timer_wrap1"),
 	document.getElementById("timer_wrap2")
 ]
+let display_text_title=document.getElementById("text_title");
+let display_text_comment=document.getElementById("text_comment");
+
+let display_vector_circle=document.getElementById("vector_dynamic_line");
 
 
 
@@ -109,19 +113,64 @@ function chrono_game_switch()
 
 
 
-//--- functions/timer ---
+//--- functions/clock ---
 /**
- * juste timer.
+ * clock things. countup or countdown.
  */
 
 
 
-function chrono_clock_start()
+function chrono_clock_start(f_end=0)
 {
-	timer_begin=Date.now();
+	timer_id++;//new timer
+	timer_begin=Date.now();//begin
+	timer_max=f_end;//end
+	timer_reverse=f_end>0;
+
+	if (timer_reverse)
+	{
+		chrono_countdown_recursive(timer_id);
+	}
+	else
+	{
+		chrono_countup_recursive(timer_id);
+	}
 }
 
 
+
+
+function chrono_countdown_next()
+{
+	chrono_clock_start(timer_max/2);
+}
+
+
+
+function chrono_countup_recursive(f_id)
+{
+	if (timer_id===f_id)
+	{
+		timer_diff_ms = Date.now() - timer_begin;//ms
+		chrono_display_timer_refresh();
+		setTimeout(chrono_countup_recursive,10**(2-sett_dec),f_id);
+	}
+}
+
+function chrono_countdown_recursive(f_id)
+{
+	if (timer_id===f_id)
+	{
+		timer_diff_ms = timer_begin + timer_max - Date.now();//ms
+		chrono_display_timer_refresh();
+		if (timer_diff_ms<0)
+		{
+			chrono_countdown_next();
+		} else {
+			setTimeout(chrono_countdown_recursive,10**(2-sett_dec),f_id);
+		}
+	}
+}
 
 
 
@@ -141,79 +190,100 @@ function chrono_display_switch(f_state)
 {
 }
 
+
 /**
- * refresh the display
+ * initialize the timer UI
+ */
+function chrono_display_timer_init()
+{
+	{//trigger decimals
+		if (sett_dec===0)
+		{//dec off
+			display_timer[0].style.display="none";
+			display_timer_wrap[1].style.display="none";
+		}
+	}
+	
+	chrono_display_timer_refresh();
+}
+
+
+/**
+ * refresh the timer UI
  * MUST be executed when a visible change is made
  */
-function chrono_display_refresh()
+function chrono_display_timer_refresh()
 {
-	{//trigger minute
-		let here_mIs=timer_diff_ms>60000;
-		if (display_timer_is_m != here_mIs)
-		{
-			display_timer_is_m = here_mIs;
-			if (display_timer_is_m)
-			{//minutes on
-				display_timer[2].style.display="";
-				display_timer_wrap[0].style.display="";
-			}
-			else 
-			{//minutes off
-				display_timer[2].style.display="none";
-				display_timer_wrap[0].style.display="none";
+	{//text
+		{//trigger minute
+			let here_mIs=timer_diff_ms>60000;
+			if (display_timer_is_m != here_mIs)
+			{
+				display_timer_is_m = here_mIs;
+				if (display_timer_is_m)
+				{//minutes on
+					display_timer[2].style.display="";
+					display_timer_wrap[0].style.display="";
+				}
+				else 
+				{//minutes off
+					display_timer[2].style.display="none";
+					display_timer_wrap[0].style.display="none";
+				}
 			}
 		}
-	}
 
 
 
-	//each digits
-	let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
-	{
-		let here_parth=here_time%10**sett_dec;
-		here_time=parseInt(here_time/10**sett_dec);
-		
-		let here_text=String(here_parth);
-		while (here_text.length<sett_dec)
+		//each digits
+		let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
 		{
-			here_text="0"+here_text;
-		}
-		display_timer[0].innerHTML=here_text;
-	}
-
-	{
-		let here_parth=here_time%60;
-		here_time=parseInt(here_time/60);
-		
-		let here_text=String(here_parth);
-		if (display_timer_is_m)
-		{
-			while (here_text.length<2)
+			let here_parth=here_time%10**sett_dec;
+			here_time=parseInt(here_time/10**sett_dec);
+			
+			let here_text=String(here_parth);
+			while (here_text.length<sett_dec)
 			{
 				here_text="0"+here_text;
 			}
+			display_timer[0].innerHTML=here_text;
 		}
-		display_timer[1].innerHTML=here_text;
+
+		{
+			let here_parth=here_time%60;
+			here_time=parseInt(here_time/60);
+			
+			let here_text=String(here_parth);
+			if (display_timer_is_m)
+			{
+				while (here_text.length<2)
+				{
+					here_text="0"+here_text;
+				}
+			}
+			display_timer[1].innerHTML=here_text;
+		}
+
+		if (display_timer_is_m)
+		{
+			let here_parth=here_time;
+			display_timer[2].innerHTML=String(here_parth);
+		}
 	}
 
-	if (display_timer_is_m)
-	{
-		let here_parth=here_time;
-		display_timer[2].innerHTML=String(here_parth);
+	if (timer_reverse)
+	{//vector
+		let here_fract=1-timer_diff_ms/timer_max;
+		display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";
+		display_vector_circle.style.opacity=String(here_fract);
 	}
 }
 
 
 cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
-chrono_clock_start();
+//--- launcher ---
 
-/**
- * for the timer
- * executed each 10ms
- */
-setInterval(
-function(){//anonymous function
-timer_diff_ms = Date.now() - timer_begin;//ms
-chrono_display_refresh();
-}, 10**(2-sett_dec));
+chrono_display_timer_init();
+
+chrono_clock_start(10000);
