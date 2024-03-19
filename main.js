@@ -22,6 +22,7 @@ let timer_reverse=false;//if countdown, else countup
 let timer_id=0;
 
 let display_timer_is_m=true;
+let display_timer_is_r=true;
 
 
 let display_timer=
@@ -38,7 +39,7 @@ let display_timer_wrap=
 let display_text_title=document.getElementById("text_title");
 let display_text_comment=document.getElementById("text_comment");
 
-let display_vector_circle=document.getElementById("vector_dynamic_line");
+let display_vector_line=document.getElementById("vector_dynamic_line");
 
 
 
@@ -204,6 +205,10 @@ function chrono_display_timer_init()
 		}
 	}
 	
+	//trigger all
+	display_timer_is_r=!timer_reverse;
+	display_timer_is_m=!(timer_diff_ms>60000);
+
 	chrono_display_timer_refresh();
 }
 
@@ -271,11 +276,31 @@ function chrono_display_timer_refresh()
 		}
 	}
 
-	if (timer_reverse)
 	{//vector
-		let here_fract=1-timer_diff_ms/timer_max;
-		display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";
-		display_vector_circle.style.opacity=String(here_fract);
+		{//trigger dynamic
+			if (display_timer_is_r != timer_reverse)
+			{
+				display_timer_is_r=timer_reverse;
+				if (display_timer_is_r)
+				{
+					display_vector_line.style.display="";
+				}
+				else
+				{
+					display_vector_line.style.display="none";
+				}
+			}
+		}
+
+		if (timer_reverse)
+		{
+			let here_fract=1-timer_diff_ms/timer_max;
+			
+			display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";//!
+			
+			display_vector_line.setAttribute("x1",String(500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400)));
+			display_vector_line.setAttribute("y1",String(500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400)));
+		}
 	}
 }
 
