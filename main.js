@@ -149,10 +149,19 @@ function chrono_clock_start(f_end=0)
 
 
 
+function chrono_clock_o()
+{
+	timer_id++;//delete timer
+	timer_diff_ms=0;
+	chrono_display_timer_refresh();
+}
+
+
 function chrono_countdown_next()
 {
 	cat_add(`timer fini`,"green");
-	chrono_clock_start(timer_max/2+100);
+	chrono_clock_o();
+	//chrono_clock_start(timer_max/2+100);
 }
 
 
@@ -215,7 +224,7 @@ function chrono_display_timer_init()
 	}
 	
 	//trigger all
-	display_timer_is_r=!timer_reverse;
+	display_timer_is_r=!(timer_reverse && timer_diff_ms>0);
 	display_timer_is_m=!(timer_diff_ms>60000);
 
 	chrono_display_timer_refresh();
@@ -287,16 +296,18 @@ function chrono_display_timer_refresh()
 
 	{//vector
 		{//trigger dynamic
-			if (display_timer_is_r != timer_reverse)
+			if (display_timer_is_r != (timer_reverse && timer_diff_ms>0))
 			{
-				display_timer_is_r=timer_reverse;
+				display_timer_is_r=(timer_reverse && timer_diff_ms>0);
 				if (display_timer_is_r)
 				{
 					display_vector_line.style.display="";
+					display_vector_arc.style.display="";
 				}
 				else
 				{
 					display_vector_line.style.display="none";
+					display_vector_arc.style.display="none";
 				}
 			}
 		}
@@ -344,4 +355,4 @@ cat_add("fonctions...","neg white bold");
 	//timer_diff_ms=0;
 	//chrono_display_timer_refresh();
 
-chrono_clock_start(10000);
+//chrono_clock_start(10000);
