@@ -15,7 +15,22 @@ let span_subloading_begin=Date.now();
 cat_add("variables...","neg gray");
 
 
-let display_block_side=document.getElementById("side");
+let timer_diff_ms=0.;
+let timer_begin=0.;
+
+
+let display_timer=
+[
+	document.getElementById("timer_ms"),
+	document.getElementById("timer_s"),
+	document.getElementById("timer_m")
+]
+let display_timer_wrap=
+[
+	document.getElementById("timer_wrap1"),
+	document.getElementById("timer_wrap2")
+]
+
 
 
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
@@ -71,7 +86,6 @@ function chrono_use_plural(f_num,f_end="s")
 }
 
 //--- functions/game ---
-//game function
 /**
  * thes functions are used dirrectly by the game.
  * only not visible action.
@@ -85,6 +99,27 @@ function chrono_use_plural(f_num,f_end="s")
 function chrono_game_switch()
 {
 }
+
+
+
+
+
+//--- functions/timer ---
+/**
+ * juste timer.
+ */
+
+
+
+function chrono_clock_start()
+{
+	timer_begin=Date.now();
+}
+
+
+
+
+
 
 //--- functions/display ---
 /**
@@ -101,5 +136,43 @@ function chrono_display_switch(f_state)
 {
 }
 
+/**
+ * refresh the display
+ * MUST be executed when a visible change is made
+ */
+function chrono_display_refresh()
+{
+	//cat_add(`${timer_diff_ms} ms`,"neg gray");
+	{
+		let here_text=String(parseInt(timer_diff_ms)%1000);
+		while (here_text.length<3)
+		{
+			here_text="0"+here_text;
+		}
+		display_timer[0].innerHTML=here_text;
+	}
+	display_timer[2].innerHTML=String(parseInt(timer_diff_ms/60000));
+	{
+		let here_text=String(parseInt(timer_diff_ms/1000)%60);
+		while (here_text.length<2 && timer_diff_ms>60000)
+		{
+			here_text="0"+here_text;
+		}
+		display_timer[1].innerHTML=here_text;
+	}
+}
+
 
 cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
+
+chrono_clock_start();
+
+/**
+ * for the timer
+ * executed each 10ms
+ */
+setInterval(
+function(){//anonymous function
+timer_diff_ms = Date.now() - timer_begin;//ms
+chrono_display_refresh();
+}, 10);
