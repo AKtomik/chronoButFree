@@ -4,6 +4,11 @@ let span_loading_end=0;
 
 
 const sett_dec=1;
+const sett_interval=20;
+const sett_counterClockwise=false;
+const sett_counterOne=false;
+//120 fps : 8.3
+//60 fps : 16.6
 
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
@@ -40,6 +45,7 @@ let display_text_title=document.getElementById("text_title");
 let display_text_comment=document.getElementById("text_comment");
 
 let display_vector_line=document.getElementById("vector_dynamic_line");
+let display_vector_arc=document.getElementById("vector_dynamic_arc");
 
 
 
@@ -130,10 +136,12 @@ function chrono_clock_start(f_end=0)
 
 	if (timer_reverse)
 	{
+		cat_add(`timer : ${f_end/1000}s`,"yellow");
 		chrono_countdown_recursive(timer_id);
 	}
 	else
 	{
+		cat_add(`chronomètre commencé`,"yellow");
 		chrono_countup_recursive(timer_id);
 	}
 }
@@ -143,7 +151,8 @@ function chrono_clock_start(f_end=0)
 
 function chrono_countdown_next()
 {
-	chrono_clock_start(timer_max/2);
+	cat_add(`timer fini`,"green");
+	chrono_clock_start(timer_max/2+100);
 }
 
 
@@ -154,7 +163,7 @@ function chrono_countup_recursive(f_id)
 	{
 		timer_diff_ms = Date.now() - timer_begin;//ms
 		chrono_display_timer_refresh();
-		setTimeout(chrono_countup_recursive,10**(2-sett_dec),f_id);
+		setTimeout(chrono_countup_recursive,sett_interval,f_id);
 	}
 }
 
@@ -168,7 +177,7 @@ function chrono_countdown_recursive(f_id)
 		{
 			chrono_countdown_next();
 		} else {
-			setTimeout(chrono_countdown_recursive,10**(2-sett_dec),f_id);
+			setTimeout(chrono_countdown_recursive,sett_interval,f_id);
 		}
 	}
 }
@@ -294,12 +303,28 @@ function chrono_display_timer_refresh()
 
 		if (timer_reverse)
 		{
-			let here_fract=1-timer_diff_ms/timer_max;
+			let here_fract=timer_diff_ms/timer_max;
+			if (sett_counterOne)
+				here_fract=1-here_fract;
 			
 			display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";//!
 			
-			display_vector_line.setAttribute("x1",String(500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400)));
-			display_vector_line.setAttribute("y1",String(500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400)));
+			let here_x=500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400);
+			let here_y=500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400);
+
+			display_vector_line.setAttribute("x1",String(here_x));
+			display_vector_line.setAttribute("y1",String(here_y));
+
+			if (sett_counterClockwise)
+				if (here_fract<=1/2)
+					display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 1 1 500 100`);
+				else
+					display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 0 1 500 100`);
+			else
+				if (here_fract<=1/2)
+					display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 0 1 ${here_x} ${here_y}`);
+				else
+					display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 1 1 ${here_x} ${here_y}`);
 		}
 	}
 }
@@ -310,5 +335,13 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 //--- launcher ---
 
 chrono_display_timer_init();
+
+cat_add("fonctions...","neg white bold");
+
+	//timer_begin=Date.now();//begin
+	//timer_max=10000;//end
+	//timer_reverse=true;
+	//timer_diff_ms=0;
+	//chrono_display_timer_refresh();
 
 chrono_clock_start(10000);

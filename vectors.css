@@ -8,11 +8,12 @@ svg {
 	}
 
 	#vector_dynamic_line {
+		fill:none;
 		stroke:#000f;
 		stroke-width:10;
 	}
-	#vector_dynamic_circle {
-		fill:#0000;
+	#vector_dynamic_arc {
+		fill:none;
 		stroke:#000f;
 		stroke-width:10;
 	}
