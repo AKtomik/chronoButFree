@@ -1,0 +1,19 @@
+/* -- svg -- */
+svg {
+	#vector_alpha_rectangle {
+		fill:#00f5;
+	}
+	#vector_alpha_circle {
+		fill:#f005;
+	}
+
+	#vector_dynamic_line {
+		stroke:#000f;
+		stroke-width:10;
+	}
+	#vector_dynamic_circle {
+		fill:#0000;
+		stroke:#000f;
+		stroke-width:10;
+	}
+}
