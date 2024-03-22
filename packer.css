@@ -15,58 +15,74 @@ background-color: #fff;/*dbug*/
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		position: inherit;
+		/*position: inherit;*/
 
-		#box_square {
-			width: 90vmin;
-			height: 90vmin;
-			
-			background-color: #3af;/*dbug*/
-			
-			/* for all layers */
-			position: relative;/*to overlaps*/
-			#box_clock, #box_text {
-				width: 100%;
-				height: 100%;
+		#box_rectangle {
 
-				position: absolute;
-			}
-			
-			
-			/* the box for the clock svg */
-			/*#box_clock {}*/
+			display: flex;
+			/*align-items: center;*/
+			/*justify-content: center;*/
+			/*position: inherit;*/
 
-			/* the box for all texts */
-			#box_text {
-
-
-				display: flex;
-				align-items: center;
-				text-align: center;
-				justify-content: center;
-				position: inherit;
-				white-space: nowrap;
+			#box_square1 {
+				width: 90vmin;
+				height: 90vmin;
 				
-				#box_text_middle, #box_text_sub, #box_text_super {
-					
-					font-size: 0;/* no space between items*/
-					/*background-color: #0f07;dbug*/
-					
-					p {
-					margin:0;
-					padding:0;
-					display: inline;
-					}
+				background-color: #3af;/*dbug*/
+				
+				/* for all layers */
+				position: relative;/*to overlaps*/
+				#box_clock, #box_text {
+					width: 100%;
+					height: 100%;
+
+					position: absolute;
 				}
 				
-				/*#box_text_middle {}*/
+				
+				/* the box for the clock svg */
+				/*#box_clock {}*/
 
-				/*#box_text_sub {
-					position: absolute;
-					top: 65%;
-					left: 50%;
-					transform: translate(-50%, -50%);
-				}*/
+				/* the box for all texts */
+				#box_text {
+
+
+					display: flex;
+					align-items: center;
+					text-align: center;
+					justify-content: center;
+					position: inherit;
+					white-space: nowrap;
+					
+					#box_text_middle, #box_text_sub, #box_text_super {
+						
+						font-size: 0;/* no space between items*/
+						/*background-color: #0f07;dbug*/
+						
+						p {
+						margin:0;
+						padding:0;
+						display: inline;
+						}
+					}
+					
+					/*#box_text_middle {}*/
+
+					/*#box_text_sub {
+						position: absolute;
+						top: 65%;
+						left: 50%;
+						transform: translate(-50%, -50%);
+					}*/
+				}
+			}
+			#box_square2 {
+				width: 90vmin;
+				height: 90vmin;
+				
+				background-color: #fa3;/*dbug*/
+
+				position: relative;/*to overlaps*/
 			}
 		}
 	}

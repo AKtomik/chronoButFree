@@ -15,7 +15,7 @@ cat_element=document.getElementById("msg_cat");
  */
 function cat_add(f_msg, f_style="")
 {
-	console.log("[WOWO] [cat] : "+f_msg);
+	console.log("[CHRONO] [cat] : "+f_msg);
 
 	if (f_style!="")
 	{
