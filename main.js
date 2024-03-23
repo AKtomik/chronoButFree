@@ -343,6 +343,15 @@ function chrono_display_timer_refresh()
 
 cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
+
+//--- functions/action ---
+
+function chrono_action_start()
+{
+	chrono_clock_start(10000);
+}
+
+
 //--- launcher ---
 
 chrono_display_timer_init();

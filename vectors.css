@@ -17,4 +17,9 @@ svg {
 		stroke:#000f;
 		stroke-width:10;
 	}
+
+	.button {
+		mix-blend-mode: difference;
+		fill:#fff;
+	}
 }

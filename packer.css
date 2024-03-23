@@ -29,6 +29,13 @@ background-color: #fff;/*dbug*/
 				height: 90vmin;
 				
 				background-color: #3af;/*dbug*/
+
+
+				svg {
+					position: absolute;
+					z-index: 1;
+				}
+
 				
 				/* for all layers */
 				position: relative;/*to overlaps*/
@@ -54,7 +61,7 @@ background-color: #fff;/*dbug*/
 					position: inherit;
 					white-space: nowrap;
 					
-					#box_text_middle, #box_text_sub, #box_text_super {
+					.text {
 						
 						font-size: 0;/* no space between items*/
 						/*background-color: #0f07;dbug*/

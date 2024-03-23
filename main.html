@@ -45,23 +45,23 @@
 		<line id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
 		<path id="vector_dynamic_arc" d="M 500 100 A 400 400 0 1 1 500 100"/>
 
-		<path class="button start" d="M 400 900 M 600 900"/>
+		<path class="button start" d="M 470 900 L 530 950 L 470 1000 Z" onclick="chrono_action_start()"/>
 
 	</svg>
 	</div>
 
 <!-- texts -->
 	<div id="box_text">
-	<div id="box_text_time">
+	<div>
 
-	<div id="box_text_super">
+	<div class="text super">
 	<p id="text_title" class="neg white">
 		indev
 	</p>
 	</div>
 
 	<!-- timer -->
-		<div id="box_text_middle">
+		<div class="text middle">
 		<p id="timer_m" class="neg white">0</p>
 		<p id="timer_wrap1" class="neg white">:</p>
 		<p id="timer_s" class="neg white">00</p>
@@ -69,7 +69,7 @@
 		<p id="timer_ms" class="neg white">000</p>
 		</div>
 	
-	<div id="box_text_sub">
+	<div class="text sub">
 	<p id="text_comment" class="neg white">
 		zero. for now.
 	</p>
