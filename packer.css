@@ -24,7 +24,7 @@ background-color: #fff;/*dbug*/
 			/*justify-content: center;*/
 			/*position: inherit;*/
 
-			#box_square1 {
+			#box_square {
 				width: 90vmin;
 				height: 90vmin;
 				
@@ -75,14 +75,6 @@ background-color: #fff;/*dbug*/
 						transform: translate(-50%, -50%);
 					}*/
 				}
-			}
-			#box_square2 {
-				width: 90vmin;
-				height: 90vmin;
-				
-				background-color: #fa3;/*dbug*/
-
-				position: relative;/*to overlaps*/
 			}
 		}
 	}
