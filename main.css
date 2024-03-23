@@ -16,7 +16,7 @@ body {
 	/* clock */
 
 	/* text */
-	#box_text {
+	.texter {
 		font-family: 'digits';
 		#timer_m {
 			font-size: 20vmin;
@@ -33,12 +33,11 @@ body {
 		#timer_ms {
 			font-size: 10vmin;
 		}
-
-		#text_title {
-			font-size: 10vmin;
-		}
 		#text_comment {
 			font-size: 5vmin;
+		}
+		#text_title {
+			font-size: 10vmin;
 		}
 	}
 
