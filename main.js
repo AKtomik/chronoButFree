@@ -169,17 +169,17 @@ function chrono_clock_stop()
 	timer_id++;//quit timer
 	timer_stamp_end=Date.now();//begin
 	
-	cat_add(`pause`,"white");
+	//cat_add(`pause`,"white");
 	chrono_display_timer_refresh();
 }
 
-function chrono_clock_continue(f_end=0)
+function chrono_clock_continue()
 {
 	timer_pause=false;
 	timer_id++;//new timer
 	timer_stamp_begin+=(Date.now() - timer_stamp_end);//correct things
 
-	cat_add(`continue`,"white");
+	//cat_add(`continue`,"white");
 	if (timer_reverse)
 	{
 		chrono_countdown_recursive(timer_id);
