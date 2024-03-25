@@ -20,11 +20,14 @@ let span_subloading_begin=Date.now();
 cat_add("variables...","neg gray");
 
 
-let timer_start=false;
-let timer_pause=false;
-let timer_diff_ms=0.;
-let timer_begin=0.;
-let timer_max=0.;
+let timer_start=false;//if timer started
+let timer_pause=false;//if timer paused
+
+let timer_span_fresh_ms=0.;//the difference for calculation
+let timer_stamp_begin=0.;//the begin timestamp
+let timer_span_max=0.;//the finish timestamp
+let timer_stamp_end=0.;//the end timestamp (when paused)
+let timer_span_gap=0.;//the gap (if has paused) timestamp
 let timer_reverse=false;//if countdown, else countup
 let timer_id=0;
 
@@ -133,14 +136,19 @@ function chrono_game_switch()
  */
 
 
+timer_span_fresh_ms=0.;//the difference for calculation
+timer_stamp_begin=0.;//the begin timestamp
+timer_span_max=0.;//the finish timestamp
+timer_stamp_end=0.;//the end timestamp (when paused)
+timer_reverse=false;//if countdown, else countup
 
 function chrono_clock_start(f_end=0)
 {
 	timer_start=true;
 	timer_pause=false;
 	timer_id++;//new timer
-	timer_begin=Date.now();//begin
-	timer_max=f_end;//end
+	timer_stamp_begin=Date.now();//begin
+	timer_span_max=f_end;//end
 	timer_reverse=f_end>0;
 
 	if (timer_reverse)
@@ -155,13 +163,40 @@ function chrono_clock_start(f_end=0)
 	}
 }
 
+function chrono_clock_stop()
+{
+	timer_pause=true;
+	timer_id++;//quit timer
+	timer_stamp_end=Date.now();//begin
+	
+	cat_add(`pause`,"white");
+	chrono_display_timer_refresh();
+}
+
+function chrono_clock_continue(f_end=0)
+{
+	timer_pause=false;
+	timer_id++;//new timer
+	timer_stamp_begin+=(Date.now() - timer_stamp_end);//correct things
+
+	cat_add(`continue`,"white");
+	if (timer_reverse)
+	{
+		chrono_countdown_recursive(timer_id);
+	}
+	else
+	{
+		chrono_countup_recursive(timer_id);
+	}
+}
+
 
 
 
 function chrono_clock_o()
 {
 	timer_id++;//delete timer
-	timer_diff_ms=0;
+	timer_span_fresh_ms=0;
 	chrono_display_timer_refresh();
 }
 
@@ -174,7 +209,7 @@ function chrono_countdown_next()
 	cat_add(`timer fini`,"green");
 	//set to 0
 	chrono_clock_o();
-	//chrono_clock_start(timer_max/2+100);
+	//chrono_clock_start(timer_span_max/2+100);
 }
 
 
@@ -183,7 +218,7 @@ function chrono_countup_recursive(f_id)
 {
 	if (timer_id===f_id)
 	{
-		timer_diff_ms = Date.now() - timer_begin;//ms
+		timer_span_fresh_ms = Date.now() - timer_stamp_begin;//ms
 		chrono_display_timer_refresh();
 		setTimeout(chrono_countup_recursive,sett_interval,f_id);
 	}
@@ -193,9 +228,9 @@ function chrono_countdown_recursive(f_id)
 {
 	if (timer_id===f_id)
 	{
-		timer_diff_ms = timer_begin + timer_max - Date.now();//ms
+		timer_span_fresh_ms = timer_stamp_begin + timer_span_max - Date.now();//ms
 		chrono_display_timer_refresh();
-		if (timer_diff_ms<0)
+		if (timer_span_fresh_ms<0)
 		{
 			chrono_countdown_next();
 		} else {
@@ -237,8 +272,8 @@ function chrono_display_timer_init()
 	}
 	
 	//trigger all
-	display_timer_is_r=!(timer_reverse && timer_diff_ms>0);
-	display_timer_is_m=!(timer_diff_ms>60000);
+	display_timer_is_r=!(timer_reverse && timer_span_fresh_ms>0);
+	display_timer_is_m=!(timer_span_fresh_ms>60000);
 
 	chrono_display_timer_refresh();
 }
@@ -254,7 +289,7 @@ function chrono_display_timer_refresh()
 	{
 		{//text
 			{//trigger minute
-				let here_mIs=timer_diff_ms>60000;
+				let here_mIs=timer_span_fresh_ms>60000;
 				if (display_timer_is_m != here_mIs)
 				{
 					display_timer_is_m = here_mIs;
@@ -274,7 +309,7 @@ function chrono_display_timer_refresh()
 
 
 			//each digits
-			let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
+			let here_time=parseInt(timer_span_fresh_ms/10**(3-sett_dec));
 			{
 				let here_parth=here_time%10**sett_dec;
 				here_time=parseInt(here_time/10**sett_dec);
@@ -311,9 +346,9 @@ function chrono_display_timer_refresh()
 
 		{//vector
 			{//trigger dynamic
-				if (display_timer_is_r != (timer_reverse && timer_diff_ms>0))
+				if (display_timer_is_r != (timer_reverse && timer_span_fresh_ms>0))
 				{
-					display_timer_is_r=(timer_reverse && timer_diff_ms>0);
+					display_timer_is_r=(timer_reverse && timer_span_fresh_ms>0);
 					if (display_timer_is_r)
 					{
 						display_vector_line.style.display="none";
@@ -329,7 +364,7 @@ function chrono_display_timer_refresh()
 
 			if (timer_reverse)
 			{
-				let here_fract=timer_diff_ms/timer_max;
+				let here_fract=timer_span_fresh_ms/timer_span_max;
 				if (sett_counterOne)
 					here_fract=1-here_fract;
 				
@@ -389,11 +424,11 @@ function chrono_action_start()
 }
 function chrono_action_continue()
 {
-	timer_start=false;
+	chrono_clock_continue();
 }
-function chrono_action_pause()
+function chrono_action_stop()
 {
-	timer_start=false;
+	chrono_clock_stop();
 }
 
 
@@ -406,9 +441,9 @@ cat_add("prêt !","neg magenta bold");
 
 //chrono_clock_start(10000);
 
-//timer_begin=Date.now();//begin
-//timer_max=10000;//end
+//timer_stamp_begin=Date.now();//begin
+//timer_span_max=10000;//end
 //timer_reverse=true;
-//timer_diff_ms=0;
+//timer_span_fresh_ms=0;
 //chrono_display_timer_refresh();
 
