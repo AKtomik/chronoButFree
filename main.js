@@ -20,6 +20,8 @@ let span_subloading_begin=Date.now();
 cat_add("variables...","neg gray");
 
 
+let timer_start=false;
+let timer_pause=false;
 let timer_diff_ms=0.;
 let timer_begin=0.;
 let timer_max=0.;
@@ -46,6 +48,11 @@ let display_text_comment=document.getElementById("text_comment");
 
 let display_vector_line=document.getElementById("vector_dynamic_line");
 let display_vector_arc=document.getElementById("vector_dynamic_arc");
+
+let display_button_start=document.querySelectorAll(".button.start")[0];
+let display_button_stop=document.querySelectorAll(".button.stop")[0];
+let display_button_continue=document.querySelectorAll(".button.continue")[0];
+
 
 
 
@@ -129,6 +136,8 @@ function chrono_game_switch()
 
 function chrono_clock_start(f_end=0)
 {
+	timer_start=true;
+	timer_pause=false;
 	timer_id++;//new timer
 	timer_begin=Date.now();//begin
 	timer_max=f_end;//end
@@ -159,7 +168,11 @@ function chrono_clock_o()
 
 function chrono_countdown_next()
 {
+	//finish
+	timer_start=false;
+	timer_pause=false;
 	cat_add(`timer fini`,"green");
+	//set to 0
 	chrono_clock_o();
 	//chrono_clock_start(timer_max/2+100);
 }
@@ -237,106 +250,129 @@ function chrono_display_timer_init()
  */
 function chrono_display_timer_refresh()
 {
-	{//text
-		{//trigger minute
-			let here_mIs=timer_diff_ms>60000;
-			if (display_timer_is_m != here_mIs)
-			{
-				display_timer_is_m = here_mIs;
-				if (display_timer_is_m)
-				{//minutes on
-					display_timer[2].style.display="";
-					display_timer_wrap[0].style.display="";
-				}
-				else 
-				{//minutes off
-					display_timer[2].style.display="none";
-					display_timer_wrap[0].style.display="none";
+	//tick
+	{
+		{//text
+			{//trigger minute
+				let here_mIs=timer_diff_ms>60000;
+				if (display_timer_is_m != here_mIs)
+				{
+					display_timer_is_m = here_mIs;
+					if (display_timer_is_m)
+					{//minutes on
+						display_timer[2].style.display="";
+						display_timer_wrap[0].style.display="";
+					}
+					else 
+					{//minutes off
+						display_timer[2].style.display="none";
+						display_timer_wrap[0].style.display="none";
+					}
 				}
 			}
-		}
 
 
 
-		//each digits
-		let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
-		{
-			let here_parth=here_time%10**sett_dec;
-			here_time=parseInt(here_time/10**sett_dec);
-			
-			let here_text=String(here_parth);
-			while (here_text.length<sett_dec)
+			//each digits
+			let here_time=parseInt(timer_diff_ms/10**(3-sett_dec));
 			{
-				here_text="0"+here_text;
-			}
-			display_timer[0].innerHTML=here_text;
-		}
-
-		{
-			let here_parth=here_time%60;
-			here_time=parseInt(here_time/60);
-			
-			let here_text=String(here_parth);
-			if (display_timer_is_m)
-			{
-				while (here_text.length<2)
+				let here_parth=here_time%10**sett_dec;
+				here_time=parseInt(here_time/10**sett_dec);
+				
+				let here_text=String(here_parth);
+				while (here_text.length<sett_dec)
 				{
 					here_text="0"+here_text;
 				}
+				display_timer[0].innerHTML=here_text;
 			}
-			display_timer[1].innerHTML=here_text;
+
+			{
+				let here_parth=here_time%60;
+				here_time=parseInt(here_time/60);
+				
+				let here_text=String(here_parth);
+				if (display_timer_is_m)
+				{
+					while (here_text.length<2)
+					{
+						here_text="0"+here_text;
+					}
+				}
+				display_timer[1].innerHTML=here_text;
+			}
+
+			if (display_timer_is_m)
+			{
+				let here_parth=here_time;
+				display_timer[2].innerHTML=String(here_parth);
+			}
 		}
 
-		if (display_timer_is_m)
-		{
-			let here_parth=here_time;
-			display_timer[2].innerHTML=String(here_parth);
+		{//vector
+			{//trigger dynamic
+				if (display_timer_is_r != (timer_reverse && timer_diff_ms>0))
+				{
+					display_timer_is_r=(timer_reverse && timer_diff_ms>0);
+					if (display_timer_is_r)
+					{
+						display_vector_line.style.display="none";
+						display_vector_arc.style.display="";
+					}
+					else
+					{
+						display_vector_line.style.display="none";
+						display_vector_arc.style.display="none";
+					}
+				}
+			}
+
+			if (timer_reverse)
+			{
+				let here_fract=timer_diff_ms/timer_max;
+				if (sett_counterOne)
+					here_fract=1-here_fract;
+				
+				display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";//!
+				
+				let here_x=500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400);
+				let here_y=500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400);
+
+				//display_vector_line.setAttribute("x1",String(here_x));
+				//display_vector_line.setAttribute("y1",String(here_y));
+
+				if (sett_counterClockwise)
+					if (here_fract<=1/2)
+						display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 1 1 500 100`);
+					else
+						display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 0 1 500 100`);
+				else
+					if (here_fract<=1/2)
+						display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 0 1 ${here_x} ${here_y}`);
+					else
+						display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 1 1 ${here_x} ${here_y}`);
+			}
 		}
 	}
 
-	{//vector
-		{//trigger dynamic
-			if (display_timer_is_r != (timer_reverse && timer_diff_ms>0))
-			{
-				display_timer_is_r=(timer_reverse && timer_diff_ms>0);
-				if (display_timer_is_r)
-				{
-					display_vector_line.style.display="none";
-					display_vector_arc.style.display="";
-				}
-				else
-				{
-					display_vector_line.style.display="none";
-					display_vector_arc.style.display="none";
-				}
-			}
-		}
 
-		if (timer_reverse)
+	//change
+	display_button_stop.style.margin="10px";
+	if (timer_start)
+	{
+		display_button_start.style.display="none";
+		if (timer_pause)
 		{
-			let here_fract=timer_diff_ms/timer_max;
-			if (sett_counterOne)
-				here_fract=1-here_fract;
-			
-			display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";//!
-			
-			let here_x=500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400);
-			let here_y=500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400);
-
-			//display_vector_line.setAttribute("x1",String(here_x));
-			//display_vector_line.setAttribute("y1",String(here_y));
-
-			if (sett_counterClockwise)
-				if (here_fract<=1/2)
-					display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 1 1 500 100`);
-				else
-					display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 0 1 500 100`);
-			else
-				if (here_fract<=1/2)
-					display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 0 1 ${here_x} ${here_y}`);
-				else
-					display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 1 1 ${here_x} ${here_y}`);
+			display_button_continue.style.display="";
+			display_button_stop.style.display="none";
+		} else {
+			display_button_continue.style.display="none";
+			display_button_stop.style.display="";
 		}
+	} else {
+		display_button_continue.style.display="none";
+		display_button_stop.style.display="none";
+		display_button_start.style.display="";
 	}
 }
 
@@ -348,7 +384,16 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 function chrono_action_start()
 {
+	//restart
 	chrono_clock_start(10000);
+}
+function chrono_action_continue()
+{
+	timer_start=false;
+}
+function chrono_action_pause()
+{
+	timer_start=false;
 }
 
 

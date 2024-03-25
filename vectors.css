@@ -21,5 +21,9 @@ svg {
 	.button {
 		mix-blend-mode: difference;
 		fill:#fff;
+		
+		stroke:rgba(0,0,0,0);
+		stroke-width:10vmin;
+		cursor:pointer;
 	}
 }

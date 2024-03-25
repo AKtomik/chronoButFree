@@ -12,6 +12,10 @@
   src: url(./source/fonts/digits.ttf);
 }
 
+.clickable:hover {
+	cursor:pointer
+}
+
 body {
 	/* clock */
 
