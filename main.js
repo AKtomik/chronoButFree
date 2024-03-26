@@ -62,6 +62,68 @@ let display_button_continue=document.querySelectorAll(".button.continue")[0];
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
 
 
+
+//--- class/queue ---
+
+let queue_elements=[]
+let queue_index=-1
+
+class Queue {
+	constructor(f_time_max, f_sett_loop, f_display_name="defaut") {
+		this.m_remain_loop=f_sett_loop;
+		
+		this.m_sett_loop=f_sett_loop;
+		this.m_sett_time=f_time_max;
+		
+		this.m_display_wise=true;
+		this.m_display_name=f_display_name;
+		this.m_display_color_back="#fff";
+		this.m_display_color_text="#fff";
+	}
+}
+
+
+
+function clock_queue_next()
+{
+	if (queue_index<0)
+	{
+		queue_index=0;
+	} else {//if is not -1
+		queue_elements[queue_index].m_remain_loop-=1;
+		let here_up=false;
+		if (queue_elements[queue_index].m_remain_loop===0)
+		{
+			here_up=true;
+		}
+
+		if (here_up)
+		{//you go to bigger wait
+			queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
+			queue_index++;
+		} else {//you back to first wait
+			queue_index=0;
+		}
+	}
+
+	if (queue_index<0)
+	{//when down from 0
+		//when you next, < 0 not allowed
+		queue_index=0;
+	}
+	if (queue_index>=queue_elements.length)
+	{//when finish
+		queue_index=-1;
+		return false;
+	}
+
+	return true;
+	return queue_elements[queue_index];
+}
+
+
+
+
 //--- functions/use ---
 //useful functions
 /**
@@ -209,7 +271,12 @@ function chrono_countdown_next()
 	cat_add(`timer fini`,"green");
 	//set to 0
 	chrono_clock_o();
-	//chrono_clock_start(timer_span_max/2+100);
+
+	//go next
+	if (clock_queue_next())//do next and check if has next
+	{
+		chrono_clock_start(queue_elements[queue_index].m_sett_time);
+	}
 }
 
 
@@ -420,7 +487,10 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 function chrono_action_start()
 {
 	//restart
-	chrono_clock_start(10000);
+	if (clock_queue_next())//do next and check if has next
+	{
+		chrono_clock_start(queue_elements[queue_index].m_sett_time);
+	}
 }
 function chrono_action_continue()
 {
@@ -435,6 +505,10 @@ function chrono_action_stop()
 //--- launcher ---
 
 chrono_display_timer_init();
+
+queue_elements.push(new Queue(2000,1,"l1"));
+queue_elements.push(new Queue(4000,3,"l2"));
+queue_elements.push(new Queue(6000,2,"l3"));
 
 
 cat_add("prêt !","neg magenta bold");
