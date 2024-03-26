@@ -5,7 +5,6 @@ let span_loading_end=0;
 
 const sett_dec=1;
 const sett_interval=20;
-const sett_counterClockwise=false;
 const sett_counterOne=false;
 //120 fps : 8.3
 //60 fps : 16.6
@@ -69,16 +68,18 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max, f_sett_loop, f_display_name="defaut") {
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_wise=false,f_display_c1="#fff",f_display_c2="#000") {
+
 		this.m_remain_loop=f_sett_loop;
 		
 		this.m_sett_loop=f_sett_loop;
 		this.m_sett_time=f_time_max;
+		this.m_sett_rstrip=f_sett_rstrip;
 		
-		this.m_display_wise=true;
 		this.m_display_name=f_display_name;
-		this.m_display_color_back="#fff";
-		this.m_display_color_things="#fff";
+		this.m_display_wise=f_display_wise;
+		this.m_display_c1=f_display_c1;
+		this.m_display_c2=f_display_c2;
 	}
 }
 
@@ -99,8 +100,30 @@ function chrono_queue_next()
 
 		if (here_up)
 		{//you go to bigger wait
-			queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
-			queue_index++;
+			if (queue_index+1===queue_elements.length)
+			{//when finish 1
+				queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
+				queue_index=-1;
+				return false;
+			} else {
+				queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
+				queue_index++;
+				if (queue_elements[queue_index].m_sett_rstrip)
+				{//
+					//(queue_index<queue_elements.length) && 
+					while (queue_elements[queue_index].m_remain_loop===1)
+					{
+						if (queue_index+1===queue_elements.length)
+						{//when finish 2
+							queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
+							queue_index=-1;
+							return false;
+						}
+						queue_elements[queue_index].m_remain_loop=queue_elements[queue_index].m_sett_loop;
+						queue_index++;
+					}
+				}
+			}
 		} else {//you back to first wait
 			queue_index=0;
 		}
@@ -110,11 +133,6 @@ function chrono_queue_next()
 	{//when down from 0
 		//when you next, < 0 not allowed
 		queue_index=0;
-	}
-	if (queue_index>=queue_elements.length)
-	{//when finish
-		queue_index=-1;
-		return false;
 	}
 
 	return true;
@@ -219,6 +237,8 @@ function chrono_clock_start(f_end=0)
 		cat_add(`chronomètre commencé`,"yellow");
 		chrono_countup_recursive(timer_id);
 	}
+
+	chrono_display_action_start();
 }
 
 function chrono_clock_pause()
@@ -350,6 +370,11 @@ function chrono_display_timer_init()
 
 
 
+function chrono_display_action_start()
+{
+	display_text_title.innerHTML=`${chrono_queue_here().m_display_name}`;
+	//display_text_comment.innerHTML=`${}`;
+}
 
 
 
@@ -450,7 +475,7 @@ function chrono_display_timer_refresh()
 				//display_vector_line.setAttribute("x1",String(here_x));
 				//display_vector_line.setAttribute("y1",String(here_y));
 
-				if (sett_counterClockwise)
+				if ((queue_index>=0) && (queue_elements[queue_index].m_display_wise))
 					if (here_fract<=1/2)
 						display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 1 1 500 100`);
 					else
@@ -509,9 +534,14 @@ function chrono_action_pause()
 
 chrono_display_timer_init();
 
-queue_elements.push(new Queue(45000,1,"l1"));
-queue_elements.push(new Queue(15000,3,"l2"));
-queue_elements.push(new Queue(360000,2,"l3"));
+queue_elements.push(new Queue(3000,1,true,"exercice",false));
+queue_elements.push(new Queue(3000,3,true,"repos",true));
+queue_elements.push(new Queue(5000,2,true,"grande pause",true));
+
+
+//queue_elements.push(new Queue(450,1,true,"exercice",true));
+//queue_elements.push(new Queue(100,3,true,"repos",false));
+//queue_elements.push(new Queue(3600,2,true,"grande pause",false));
 
 
 cat_add("prêt !","neg magenta bold");
