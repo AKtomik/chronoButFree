@@ -53,7 +53,7 @@ let display_vector_line=document.getElementById("vector_dynamic_line");
 let display_vector_arc=document.getElementById("vector_dynamic_arc");
 
 let display_button_start=document.querySelectorAll(".button.start")[0];
-let display_button_stop=document.querySelectorAll(".button.stop")[0];
+let display_button_pause=document.querySelectorAll(".button.pause")[0];
 let display_button_continue=document.querySelectorAll(".button.continue")[0];
 
 
@@ -78,13 +78,13 @@ class Queue {
 		this.m_display_wise=true;
 		this.m_display_name=f_display_name;
 		this.m_display_color_back="#fff";
-		this.m_display_color_text="#fff";
+		this.m_display_color_things="#fff";
 	}
 }
 
 
 
-function clock_queue_next()
+function chrono_queue_next()
 {
 	if (queue_index<0)
 	{
@@ -118,9 +118,12 @@ function clock_queue_next()
 	}
 
 	return true;
-	return queue_elements[queue_index];
 }
 
+function chrono_queue_here()
+{
+	return queue_elements[queue_index];
+}
 
 
 
@@ -197,13 +200,6 @@ function chrono_game_switch()
  * clock things. countup or countdown.
  */
 
-
-timer_span_fresh_ms=0.;//the difference for calculation
-timer_stamp_begin=0.;//the begin timestamp
-timer_span_max=0.;//the finish timestamp
-timer_stamp_end=0.;//the end timestamp (when paused)
-timer_reverse=false;//if countdown, else countup
-
 function chrono_clock_start(f_end=0)
 {
 	timer_start=true;
@@ -215,7 +211,7 @@ function chrono_clock_start(f_end=0)
 
 	if (timer_reverse)
 	{
-		cat_add(`timer : ${f_end/1000}s`,"yellow");
+		cat_add(`${chrono_queue_here().m_display_name} : ${f_end/1000}s`,"yellow");
 		chrono_countdown_recursive(timer_id);
 	}
 	else
@@ -225,7 +221,7 @@ function chrono_clock_start(f_end=0)
 	}
 }
 
-function chrono_clock_stop()
+function chrono_clock_pause()
 {
 	timer_pause=true;
 	timer_id++;//quit timer
@@ -234,6 +230,7 @@ function chrono_clock_stop()
 	//cat_add(`pause`,"white");
 	chrono_display_timer_refresh();
 }
+
 
 function chrono_clock_continue()
 {
@@ -263,20 +260,26 @@ function chrono_clock_o()
 }
 
 
-function chrono_countdown_next()
+function chrono_next()
 {
 	//finish
 	timer_start=false;
 	timer_pause=false;
-	cat_add(`timer fini`,"green");
 	//set to 0
 	chrono_clock_o();
 
 	//go next
-	if (clock_queue_next())//do next and check if has next
+	if (chrono_queue_next())//do next and check if has next
 	{
 		chrono_clock_start(queue_elements[queue_index].m_sett_time);
+	} else {
+		cat_add(`fini !`,"green");
 	}
+}
+
+function chrono_countdown_next()
+{
+	chrono_next();
 }
 
 
@@ -344,6 +347,10 @@ function chrono_display_timer_init()
 
 	chrono_display_timer_refresh();
 }
+
+
+
+
 
 
 /**
@@ -459,21 +466,21 @@ function chrono_display_timer_refresh()
 
 
 	//change
-	display_button_stop.style.margin="10px";
+	display_button_pause.style.margin="10px";
 	if (timer_start)
 	{
 		display_button_start.style.display="none";
 		if (timer_pause)
 		{
 			display_button_continue.style.display="";
-			display_button_stop.style.display="none";
+			display_button_pause.style.display="none";
 		} else {
 			display_button_continue.style.display="none";
-			display_button_stop.style.display="";
+			display_button_pause.style.display="";
 		}
 	} else {
 		display_button_continue.style.display="none";
-		display_button_stop.style.display="none";
+		display_button_pause.style.display="none";
 		display_button_start.style.display="";
 	}
 }
@@ -486,19 +493,15 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 function chrono_action_start()
 {
-	//restart
-	if (clock_queue_next())//do next and check if has next
-	{
-		chrono_clock_start(queue_elements[queue_index].m_sett_time);
-	}
+	chrono_next();
 }
 function chrono_action_continue()
 {
 	chrono_clock_continue();
 }
-function chrono_action_stop()
+function chrono_action_pause()
 {
-	chrono_clock_stop();
+	chrono_clock_pause();
 }
 
 
@@ -506,9 +509,9 @@ function chrono_action_stop()
 
 chrono_display_timer_init();
 
-queue_elements.push(new Queue(2000,1,"l1"));
-queue_elements.push(new Queue(4000,3,"l2"));
-queue_elements.push(new Queue(6000,2,"l3"));
+queue_elements.push(new Queue(45000,1,"l1"));
+queue_elements.push(new Queue(15000,3,"l2"));
+queue_elements.push(new Queue(360000,2,"l3"));
 
 
 cat_add("prêt !","neg magenta bold");
