@@ -1,29 +1,21 @@
 /* -- svg -- */
 svg {
-	#vector_alpha_rectangle {
-		fill:#00f5;
-	}
-	#vector_alpha_circle {
-		fill:#f005;
-	}
-
 	#vector_dynamic_line {
 		fill:none;
-		stroke:#000f;
+		
 		stroke-width:10;
 	}
 	#vector_dynamic_arc {
 		fill:none;
-		stroke:#000f;
+
 		stroke-width:10;
 	}
 
 	.button {
-		mix-blend-mode: difference;
-		fill:#fff;
-		
+		/* stroke to bigger clickable hitbox */
+		stroke-width:20vmax;
 		stroke:rgba(0,0,0,0);
-		stroke-width:10vmin;
+		
 		cursor:pointer;
 	}
 }

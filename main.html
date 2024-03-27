@@ -7,6 +7,7 @@
  	<link href="coloration.css" rel="stylesheet" />
  	<link href="vectors.css" rel="stylesheet" />
  	<link href="main.css" rel="stylesheet" />
+ 	<link href="style.css" rel="stylesheet" />
 	
 	<title>
 		chrono mais gratuit
@@ -14,7 +15,7 @@
 </head>
 <body>
 
-<div id="box_full">
+<div id="box_full" class="style_c2 back">
 <div id="box_rectangle">
 <div id="box_square">
 <!-- svg -->
@@ -22,6 +23,7 @@
 	<svg viewBox="0 0 1000 1000">
 		  
 	<!-- grid -->
+	<!--
 		<defs>
 			<pattern id="grid_1" width="10" height="10" patternUnits="userSpaceOnUse">
 				<rect x="0" y="0" width="10" height="10" fill="none" stroke="#fff"	stroke-width="1"/>
@@ -35,20 +37,21 @@
 			</pattern>
 		</defs>
 		<rect x="0" y="0" width="100%" height="100%" fill="url(#grid_2)"/>
+	-->
 
 
 	<!-- alpha elements -->
-		<rect id="vector_alpha_rectangle" x="10%" y="10%" width="80%" height="80%"/>
-		<circle id="vector_alpha_circle" cx="50%" cy="50%" r="40%"/>
+		<!--<rect id="vector_alpha_rectangle" x="10%" y="10%" width="80%" height="80%"/>-->
+		<!--<circle id="vector_alpha_circle" cx="50%" cy="50%" r="40%"/>-->
 
 	<!-- dynamic elements -->
-		<line id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
-		<path id="vector_dynamic_arc" d="M 500 100 A 400 400 0 1 1 500 100"/>
+		<line class="style_c1 stroke" id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
+		<path class="style_c1 stroke" id="vector_dynamic_arc" d="M 500 100 A 400 400 0 1 1 500 100"/>
 
 		<!--<path class="button start" d="M 450 600 L 550 600 L 550 700 L 450 700 Z" onclick="chrono_action_start()"/>-->
-		<path class="button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_start()"/>
-		<path class="button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_continue()"/>
-		<path class="button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="chrono_action_pause()"/>
+		<path class="style_c1 fill button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_start()"/>
+		<path class="style_c1 fill button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_continue()"/>
+		<path class="style_c1 fill button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="chrono_action_pause()"/>
 
 	</svg>
 	</div>
@@ -58,7 +61,7 @@
 
 	<div class="text_box super">
 		<div class="texter">
-		<p id="text_title" class="neg white">
+		<p id="text_title" class="style_c1 text">
 			indev
 		</p>
 		</div>
@@ -67,17 +70,17 @@
 	<div class="text_box middle">
 	<!-- timer -->
 		<div class="texter">
-			<p id="timer_m" class="neg white">0</p>
-			<p id="timer_wrap1" class="neg white">:</p>
-			<p id="timer_s" class="neg white">00</p>
-			<p id="timer_wrap2" class="neg white">.</p>
-			<p id="timer_ms" class="neg white">000</p>
+			<p id="timer_m" class="style_c1 text">0</p>
+			<p id="timer_wrap1" class="style_c1 text">:</p>
+			<p id="timer_s" class="style_c1 text">00</p>
+			<p id="timer_wrap2" class="style_c1 text">.</p>
+			<p id="timer_ms" class="style_c1 text">000</p>
 		</div>
 	</div>
 	
 	<div class="text_box sub">
 		<div class="texter">
-		<p id="text_comment" class="neg white">
+		<p id="text_comment" class="style_c1 text">
 			zero. for now.
 		</p>
 		</div>

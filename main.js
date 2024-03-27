@@ -224,7 +224,7 @@ function chrono_clock_start(f_end=0)
 	timer_pause=false;
 	timer_id++;//new timer
 	timer_stamp_begin=Date.now();//begin
-	timer_span_max=f_end;//end
+	timer_span_max=f_end-1;//end
 	timer_reverse=f_end>0;
 
 	if (timer_reverse)
@@ -534,14 +534,14 @@ function chrono_action_pause()
 
 chrono_display_timer_init();
 
-queue_elements.push(new Queue(3000,1,true,"exercice",false));
+queue_elements.push(new Queue(10000,2,true,"exercice",false));
 queue_elements.push(new Queue(3000,3,true,"repos",true));
 queue_elements.push(new Queue(5000,2,true,"grande pause",true));
 
 
-//queue_elements.push(new Queue(450,1,true,"exercice",true));
-//queue_elements.push(new Queue(100,3,true,"repos",false));
-//queue_elements.push(new Queue(3600,2,true,"grande pause",false));
+//queue_elements.push(new Queue(45000,1,true,"exercice",true));
+//queue_elements.push(new Queue(15000,3,true,"repos",false));
+//queue_elements.push(new Queue(360000,2,true,"grande pause",false));
 
 
 cat_add("prêt !","neg magenta bold");

@@ -1,0 +1,46 @@
+/* custom fonts */
+@font-face {
+  font-family: 'code';
+  src: url(./source/fonts/code.ttf);
+}
+@font-face {
+  font-family: 'texto';
+  src: url(./source/fonts/talk.otf);
+}
+@font-face {
+  font-family: 'digits';
+  src: url(./source/fonts/digits.ttf);
+}
+
+
+.style_c1 {
+	&.stroke {
+		stroke:#aaf;
+	}
+	&.fill {
+		fill:#aaf;
+	}
+	&.text {
+		color:#aaf;
+	}
+}
+.style_c2 {
+	&.back {
+		background-color:#00f;
+	}
+}
+
+
+body {
+	.texter {
+		font-family: 'digits';
+	}
+
+	aside {
+		font-family: 'code';
+
+		#msg_cat {
+			color:#fff;
+		}
+	}
+}

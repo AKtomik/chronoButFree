@@ -1,27 +1,7 @@
-/* custom fonts */
-@font-face {
-  font-family: 'code';
-  src: url(./source/fonts/code.ttf);
-}
-@font-face {
-  font-family: 'texto';
-  src: url(./source/fonts/talk.otf);
-}
-@font-face {
-  font-family: 'digits';
-  src: url(./source/fonts/digits.ttf);
-}
-
-.clickable:hover {
-	cursor:pointer
-}
 
 body {
-	/* clock */
-
 	/* text */
 	.texter {
-		font-family: 'digits';
 		#timer_m {
 			font-size: 20vmin;
 		}
@@ -43,14 +23,5 @@ body {
 		#text_title {
 			font-size: 10vmin;
 		}
-	}
-
-	aside {
-		font-family: 'code';
-
-		#msg_cat {
-			color:#fff;
-		}
-		/*#msg_the {}*/
 	}
 }
