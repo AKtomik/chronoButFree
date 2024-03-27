@@ -5,7 +5,6 @@ let span_loading_end=0;
 
 const sett_dec=1;
 const sett_interval=20;
-const sett_counterOne=false;
 //120 fps : 8.3
 //60 fps : 16.6
 
@@ -68,7 +67,7 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_wise=false,f_display_c1="#fff",f_display_c2="#000") {
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#fff",f_display_c2="#000") {
 
 		this.m_remain_loop=f_sett_loop;
 		
@@ -78,6 +77,7 @@ class Queue {
 		
 		this.m_display_name=f_display_name;
 		this.m_display_wise=f_display_wise;
+		this.m_display_fill=f_display_fill;
 		this.m_display_c1=f_display_c1;
 		this.m_display_c2=f_display_c2;
 	}
@@ -291,7 +291,7 @@ function chrono_next()
 	//go next
 	if (chrono_queue_next())//do next and check if has next
 	{
-		chrono_clock_start(queue_elements[queue_index].m_sett_time);
+		chrono_clock_start(chrono_queue_here().m_sett_time);
 	} else {
 		cat_add(`fini !`,"green");
 	}
@@ -463,28 +463,50 @@ function chrono_display_timer_refresh()
 
 			if (timer_reverse)
 			{
+				display_text_comment.innerHTML=String(parseInt((1-(timer_span_fresh_ms/timer_span_max))*100))+"%";//!
+
+				//vars/all
+				let here_arc_m="500 100";
+				let here_arc_a="500 100";
+				let here_arc_s;
+				let here_arc_f;
 				let here_fract=timer_span_fresh_ms/timer_span_max;
-				if (sett_counterOne)
-					here_fract=1-here_fract;
-				
-				display_text_comment.innerHTML=String(parseInt(here_fract*100))+"%";//!
-				
-				let here_x=500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400);
-				let here_y=500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400);
 
-				//display_vector_line.setAttribute("x1",String(here_x));
-				//display_vector_line.setAttribute("y1",String(here_y));
+				if (queue_index<0)
+				{//no queue
+					here_fract=1;
+				} else {
+					here_arc_s=chrono_queue_here().m_display_fill;
+					if (chrono_queue_here().m_display_wise)//counterclockwise
+					{
+						here_fract=1-here_fract;
+						here_arc_s=!here_arc_s;
+					}
+				}
 
-				if ((queue_index>=0) && (queue_elements[queue_index].m_display_wise))
-					if (here_fract<=1/2)
-						display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 1 1 500 100`);
+				//vars/points
+				{
+					let here_x=500+( Math.cos(Math.PI*2*here_fract-Math.PI/2) *400);
+					let here_y=500+( Math.sin(Math.PI*2*here_fract-Math.PI/2) *400);
+					here_arc_a=`${here_x} ${here_y}`;
+				}
+					
+				here_arc_f=here_arc_s;
+				if (here_fract<=1/2)
+				{//change parth when half
+					here_arc_s=!here_arc_s;
+				}
+
+				function here_display_bool(f_bool)
+				{
+					if (f_bool)
+						return "1";
 					else
-						display_vector_arc.setAttribute("d",`M ${here_x} ${here_y} A 400 400 0 0 1 500 100`);
-				else
-					if (here_fract<=1/2)
-						display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 0 1 ${here_x} ${here_y}`);
-					else
-						display_vector_arc.setAttribute("d",`M 500 100 A 400 400 0 1 1 ${here_x} ${here_y}`);
+						return "0";
+				}
+
+				display_vector_arc.setAttribute("d",`M ${here_arc_m} A 400 400 0 ${here_display_bool(here_arc_s)} ${here_display_bool(here_arc_f)} ${here_arc_a}`);
+
 			}
 		}
 	}
@@ -534,9 +556,9 @@ function chrono_action_pause()
 
 chrono_display_timer_init();
 
-queue_elements.push(new Queue(10000,2,true,"exercice",false));
-queue_elements.push(new Queue(3000,3,true,"repos",true));
-queue_elements.push(new Queue(5000,2,true,"grande pause",true));
+queue_elements.push(new Queue(500,1,true,"exercice", false,true));
+queue_elements.push(new Queue(300,1,false,"repos", true,true));
+queue_elements.push(new Queue(1000,2,true,"grande pause", true,true));
 
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",true));
