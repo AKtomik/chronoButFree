@@ -38,21 +38,48 @@ background-color: #f00;/*dbug*/
 						}
 					}
 
+					/* the box for middle texts */
+					&.Smiddle {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+
+						text-align: center;
+						
+						.texter {
+							font-size: 0;/* no space between items*/
+						
+							/*outline: #ff0 dashed 2px;*/
+							
+							p {
+							display: inline;
+							}
+						}
+
+					}
 					/* the box for all texts */
 					&.Stext {
 
 
-						.text_box {
+						.marger {
 
 
 							width: 100%;
 							height: 100%;
-							position: absolute;
+							
+							/*outline: #f00 dashed 3px;*/
 							
 							.texter {
 								
 								font-size: 0;/* no space between items*/
-								/*outline: #f00 dashed 3px;*/
+							
+								/*outline: #0f0 dashed 2px;*/
+								
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								
+								text-align: center;
 								
 								p {
 								margin:0;
@@ -61,31 +88,14 @@ background-color: #f00;/*dbug*/
 								}
 							}
 
-							&.super {
-								align-items: center;
-								justify-content: center;
-								
-								text-align: center;
+							&.a {
+								height: 25%;
 							}
-							&.middle {
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								
-								text-align: center;
+							&.b {
+								height: 50%;
 							}
-							&.sub {
-								position : absolute;
-								display: table;
-								
-								width: 100%; /* editable */
-								height: 50%; /* editable */
-
-								.texter {
-									display: table-cell;
-									vertical-align: middle;
-									text-align: center;
-								}
+							&.c {
+								height: 0%;
 							}
 						}
 						
