@@ -7,6 +7,7 @@ const sett_dec=1;
 const sett_interval=20;
 //120 fps : 8.3
 //60 fps : 16.6
+const sett_fillContrary=false;//force fill to be contrary to the last (avoid)
 
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
@@ -91,6 +92,8 @@ function chrono_queue_next()
 	{
 		queue_index=0;
 	} else {//if is not -1
+		let last_index=queue_index;
+		
 		queue_elements[queue_index].m_remain_loop-=1;
 		let here_up=false;
 		if (queue_elements[queue_index].m_remain_loop===0)
@@ -127,7 +130,11 @@ function chrono_queue_next()
 		} else {//you back to first wait
 			queue_index=0;
 		}
+		
+		if (sett_fillContrary)
+			queue_elements[queue_index].m_display_fill=!(queue_elements[last_index].m_display_fill);
 	}
+	
 
 	if (queue_index<0)
 	{//when down from 0
@@ -556,14 +563,19 @@ function chrono_action_pause()
 
 chrono_display_timer_init();
 
-queue_elements.push(new Queue(500,1,true,"exercice", false,true));
-queue_elements.push(new Queue(300,1,false,"repos", true,true));
-queue_elements.push(new Queue(1000,2,true,"grande pause", true,true));
+//queue_elements.push(new Queue(500,1,true,"exercice", false,true));
+//queue_elements.push(new Queue(300,1,false,"repos", true,true));
+//queue_elements.push(new Queue(1000,2,true,"grande pause", true,true));
 
 
-//queue_elements.push(new Queue(45000,1,true,"exercice",true));
-//queue_elements.push(new Queue(15000,3,true,"repos",false));
-//queue_elements.push(new Queue(360000,2,true,"grande pause",false));
+queue_elements.push(new Queue(4500,1,true,"exercice",false,true));
+queue_elements.push(new Queue(1500,3,true,"repos",true,false));
+queue_elements.push(new Queue(36000,2,true,"grande pause",true,false));
+
+
+//queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
+//queue_elements.push(new Queue(15000,3,true,"repos",true,false));
+//queue_elements.push(new Queue(360000,2,true,"grande pause",true,false));
 
 
 cat_add("prêt !","neg magenta bold");
