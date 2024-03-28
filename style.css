@@ -1,17 +1,8 @@
 /* custom fonts */
 @font-face {
-  font-family: 'code';
-  src: url(./source/fonts/code.ttf);
-}
-@font-face {
   font-family: 'texto';
   src: url(./source/fonts/talk.otf);
 }
-@font-face {
-  font-family: 'digits';
-  src: url(./source/fonts/digits.ttf);
-}
-
 
 .style_c1 {
 	&.stroke {
@@ -33,11 +24,15 @@
 
 body {
 	.texter {
-		font-family: 'digits';
+		Font-family: Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;
+		
+		&.timer {
+			Font-family: Consolas, monaco, monospace;
+		}
 	}
 
 	aside {
-		font-family: 'code';
+		Font-family: Consolas, monaco, monospace;
 
 		#msg_cat {
 			color:#fff;

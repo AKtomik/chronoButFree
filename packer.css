@@ -62,31 +62,10 @@ background-color: #f00;/*dbug*/
 
 
 						.marger {
-
-
 							width: 100%;
 							height: 100%;
-							
+
 							/*outline: #f00 dashed 3px;*/
-							
-							.texter {
-								
-								font-size: 0;/* no space between items*/
-							
-								/*outline: #0f0 dashed 2px;*/
-								
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								
-								text-align: center;
-								
-								p {
-								margin:0;
-								padding:0;
-								display: inline;
-								}
-							}
 
 							&.a {
 								height: 25%;
@@ -98,7 +77,37 @@ background-color: #f00;/*dbug*/
 								height: 0%;
 							}
 						}
+					}
+							
+					.texter {
+						font-size: 0;/* no space between items*/
+					
+						/*outline: #0f0 dashed 2px;*/
+
+						text-align: center;
+
+						.style_size_p1 {
+							font-size: 20vmin;
+						}
+						.style_size_p2 {
+							font-size: 20vmin;
+						}
+						.style_size_p3 {
+							font-size: 10vmin;
+						}
+						.style_size_h1 {
+							font-weight:bolder;
+							font-size: 8vmin;
+						}
+						.style_size_h2 {
+							font-size: 5vmin;
+						}
 						
+						p {
+							margin:0;
+							padding:0;
+							display: inline;
+						}
 					}
 				}
 			}

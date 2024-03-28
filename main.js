@@ -563,15 +563,11 @@ function chrono_action_pause()
 
 chrono_display_timer_init();
 
-//queue_elements.push(new Queue(500,1,true,"exercice", false,true));
-//queue_elements.push(new Queue(300,1,false,"repos", true,true));
-//queue_elements.push(new Queue(1000,2,true,"grande pause", true,true));
+//queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
-
-queue_elements.push(new Queue(4500,1,true,"exercice",false,true));
-queue_elements.push(new Queue(1500,3,true,"repos",true,false));
-queue_elements.push(new Queue(36000,2,true,"grande pause",true,false));
-
+queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true));
+queue_elements.push(new Queue(1500,3,true,"REPOS",true,false));
+queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,false));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
