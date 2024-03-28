@@ -33,9 +33,5 @@ body {
 
 	aside {
 		Font-family: Consolas, monaco, monospace;
-
-		#msg_cat {
-			color:#fff;
-		}
 	}
 }

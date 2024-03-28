@@ -55,7 +55,10 @@ let display_button_start=document.querySelectorAll(".button.start")[0];
 let display_button_pause=document.querySelectorAll(".button.pause")[0];
 let display_button_continue=document.querySelectorAll(".button.continue")[0];
 
-
+let display_texts_c1_fill=document.querySelectorAll(".style_c1.fill");
+let display_texts_c1_stroke=document.querySelectorAll(".style_c1.stroke");
+let display_texts_c1_text=document.querySelectorAll(".style_c1.text");
+let display_texts_c2_back=document.querySelectorAll(".style_c2.back");
 
 
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
@@ -298,8 +301,10 @@ function chrono_next()
 	//go next
 	if (chrono_queue_next())//do next and check if has next
 	{
+		chrono_display_color(chrono_queue_here().m_display_c1,chrono_queue_here().m_display_c2);
 		chrono_clock_start(chrono_queue_here().m_sett_time);
 	} else {
+		chrono_display_color("#aaf","#00f");
 		cat_add(`fini !`,"green");
 	}
 }
@@ -383,6 +388,30 @@ function chrono_display_action_start()
 	//display_text_comment.innerHTML=`${}`;
 }
 
+
+function chrono_display_color(f_c1, f_c2)
+{
+	{//c1
+		for (const v of display_texts_c1_stroke)
+		{
+			v.style["stroke"]=f_c1;
+		}
+		for (const v of display_texts_c1_fill)
+		{
+			v.style["fill"]=f_c1;
+		}
+		for (const v of display_texts_c1_text)
+		{
+			v.style["color"]=f_c1;
+		}
+	}
+	{//c2
+		for (const v of display_texts_c2_back)
+		{
+			v.style["background-color"]=f_c2;
+		}
+	}
+}
 
 
 /**
@@ -565,9 +594,9 @@ chrono_display_timer_init();
 
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
-queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true));
-queue_elements.push(new Queue(1500,3,true,"REPOS",true,false));
-queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,false));
+queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
+queue_elements.push(new Queue(1500,2,true,"REPOS",true,false,"#ffa","#fa0"));
+queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,false,"#afa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
