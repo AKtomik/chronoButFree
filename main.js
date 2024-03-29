@@ -19,8 +19,8 @@ let span_subloading_begin=Date.now();
 cat_add("variables...","neg gray");
 
 
-let timer_start=false;//if timer started
-let timer_pause=false;//if timer paused
+let timer_started=false;//if timer started
+let timer_paused=false;//if timer paused
 
 let timer_span_fresh_ms=0.;//the difference for calculation
 let timer_stamp_begin=0.;//the begin timestamp
@@ -59,6 +59,14 @@ let display_texts_c1_fill=document.querySelectorAll(".style_c1.fill");
 let display_texts_c1_stroke=document.querySelectorAll(".style_c1.stroke");
 let display_texts_c1_text=document.querySelectorAll(".style_c1.text");
 let display_texts_c2_back=document.querySelectorAll(".style_c2.back");
+
+let display_menu_actual=0;
+let display_menus=[
+	0,
+	document.querySelectorAll(".menu.first"),
+	document.querySelectorAll(".menu.second"),
+	document.querySelectorAll(".menu.last"),
+]
 
 
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
@@ -230,52 +238,61 @@ function chrono_game_switch()
 
 function chrono_clock_start(f_end=0)
 {
-	timer_start=true;
-	timer_pause=false;
-	timer_id++;//new timer
-	timer_stamp_begin=Date.now();//begin
-	timer_span_max=f_end-1;//end
-	timer_reverse=f_end>0;
-
-	if (timer_reverse)
+	if (!timer_started)
 	{
-		cat_add(`${chrono_queue_here().m_display_name} : ${f_end/1000}s`,"yellow");
-		chrono_countdown_recursive(timer_id);
-	}
-	else
-	{
-		cat_add(`chronomètre commencé`,"yellow");
-		chrono_countup_recursive(timer_id);
-	}
+		timer_started=true;
+		timer_paused=false;
+		timer_id++;//new timer
+		timer_stamp_begin=Date.now();//begin
+		timer_span_max=f_end-1;//end
+		timer_reverse=f_end>0;
 
-	chrono_display_action_start();
+		if (timer_reverse)
+		{
+			cat_add(`${chrono_queue_here().m_display_name} : ${f_end/1000}s`,"yellow");
+			chrono_countdown_recursive(timer_id);
+		}
+		else
+		{
+			cat_add(`chronomètre commencé`,"yellow");
+			chrono_countup_recursive(timer_id);
+		}
+
+		chrono_display_action_start();
+	}
 }
 
 function chrono_clock_pause()
 {
-	timer_pause=true;
-	timer_id++;//quit timer
-	timer_stamp_end=Date.now();//begin
-	
-	//cat_add(`pause`,"white");
-	chrono_display_timer_refresh();
+	if (timer_started && !timer_paused)
+	{
+		timer_paused=true;
+		timer_id++;//quit timer
+		timer_stamp_end=Date.now();//begin
+		
+		//cat_add(`pause`,"white");
+		chrono_display_timer_refresh();
+	}
 }
 
 
 function chrono_clock_continue()
 {
-	timer_pause=false;
-	timer_id++;//new timer
-	timer_stamp_begin+=(Date.now() - timer_stamp_end);//correct things
+	if (timer_started && timer_paused)
+	{
+		timer_paused=false;
+		timer_id++;//new timer
+		timer_stamp_begin+=(Date.now() - timer_stamp_end);//correct things
 
-	//cat_add(`continue`,"white");
-	if (timer_reverse)
-	{
-		chrono_countdown_recursive(timer_id);
-	}
-	else
-	{
-		chrono_countup_recursive(timer_id);
+		//cat_add(`continue`,"white");
+		if (timer_reverse)
+		{
+			chrono_countdown_recursive(timer_id);
+		}
+		else
+		{
+			chrono_countup_recursive(timer_id);
+		}
 	}
 }
 
@@ -293,8 +310,8 @@ function chrono_clock_o()
 function chrono_next()
 {
 	//finish
-	timer_start=false;
-	timer_pause=false;
+	timer_started=false;
+	timer_paused=false;
 	//set to 0
 	chrono_clock_o();
 
@@ -352,11 +369,50 @@ function chrono_countdown_recursive(f_id)
 
 
 /**
- * apply display values each time you edit the game state
- * @param {int} f_state the new game state
+ * apply display values each time you edit the menu
+ * @param {int} f_state the new menu
  */
-function chrono_display_switch(f_state)
+function chrono_display_menu_switch(f_state)
 {
+	console.log(`switch ${f_state} from ${display_menu_actual}`)
+	//out
+	if (display_menu_actual===1)
+	{
+		chrono_clock_pause();
+		for (const v of display_menus[1])
+		{
+			v.style["opacity"]="0";
+		}
+	}
+	if (display_menu_actual===2)
+	{
+		for (const v of display_menus[2])
+		{
+			v.style["opacity"]="0";
+		}
+	}
+	
+	display_menu_actual=f_state;
+
+	//in
+	if (display_menu_actual===1)
+	{
+		for (const v of display_menus[1])
+		{
+			v.style["opacity"]="1";
+		}
+	}
+	if (display_menu_actual===2)
+	{
+		for (const v of display_menus[2])
+		{
+			v.style["opacity"]="1";
+		}
+	}
+	for (const v of display_menus[3])
+	{
+		v.style["opacity"]="1";
+	}
 }
 
 
@@ -552,10 +608,10 @@ function chrono_display_timer_refresh()
 
 	//change
 	display_button_pause.style.margin="10px";
-	if (timer_start)
+	if (timer_started)
 	{
 		display_button_start.style.display="none";
-		if (timer_pause)
+		if (timer_paused)
 		{
 			display_button_continue.style.display="";
 			display_button_pause.style.display="none";
@@ -576,26 +632,44 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 //--- functions/action ---
 
-function chrono_action_pause()
+function chrono_action_play()
 {
-	chrono_clock_pause();
+	if (timer_paused)
+		chrono_clock_continue();
+	else
+		if (timer_started)
+			chrono_clock_pause();
+		else
+			chrono_next();//start
 }
-function chrono_action_start()
+
+function chrono_action_menu()
 {
-	chrono_next();
+	if (display_menu_actual===2)
+		chrono_display_menu_switch(1);
+	else
+		chrono_display_menu_switch(2);
 }
-function chrono_action_continue()
+
+function chrono_action_press(f_event)
 {
-	chrono_clock_continue();
+	let here_key=String(f_event.key);
+
+	if (here_key===" ")
+	{
+		chrono_action_play();
+	}
 }
-function chrono_action_pause()
-{
-	chrono_clock_pause();
-}
+
+//function chrono_action_back3()
+//{//go to the begin
+//	chrono_clock_pause();
+//}
 
 
 //--- launcher ---
 
+chrono_display_menu_switch(1);
 chrono_display_timer_init();
 
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
@@ -610,12 +684,3 @@ queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#afa","#0a0
 
 
 cat_add("prêt !","neg magenta bold");
-
-//chrono_clock_start(10000);
-
-//timer_stamp_begin=Date.now();//begin
-//timer_span_max=10000;//end
-//timer_reverse=true;
-//timer_span_fresh_ms=0;
-//chrono_display_timer_refresh();
-

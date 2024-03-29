@@ -71,7 +71,8 @@ background-color: #f00;/*dbug*/
 								height: 25%;
 							}
 							&.b {
-								height: 50%;
+								/*height: 50%;*/
+								height: 70%;
 							}
 							&.c {
 								height: 0%;

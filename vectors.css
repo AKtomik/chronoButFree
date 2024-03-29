@@ -1,20 +1,17 @@
 /* -- svg -- */
 svg {
-	#vector_dynamic_line {
+	z-index: 1;
+	.stroke {
 		fill:none;
 		
-		stroke-width:10;
-	}
-	#vector_dynamic_arc {
-		fill:none;
-
 		stroke-width:10;
 	}
 
 	.button {
 		/* stroke to bigger clickable hitbox */
-		stroke-width:20vmax;
-		stroke:rgba(0,0,0,0);
+		stroke-width:5vmax;
+		z-index: 10;
+		stroke:rgba(0,0,0,0.1);
 		
 		cursor:pointer;
 	}

@@ -4,6 +4,7 @@
   src: url(./source/fonts/talk.otf);
 }
 
+/* --- colors --- */
 .style_c1 {
 	&.stroke {
 		stroke:#fff;
@@ -25,17 +26,20 @@
 	}
 }
 
-
+/* --- fonts --- */
 body {
 	.texter {
-		Font-family: Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;
-		
+		Font-family: Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;		
 		&.timer {
 			Font-family: Consolas, monaco, monospace;
 		}
 	}
-
 	aside {
 		Font-family: Consolas, monaco, monospace;
 	}
+}
+
+/* --- defalut --- */
+.menu {
+	opacity: 0;
 }
