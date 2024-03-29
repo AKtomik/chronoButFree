@@ -6,18 +6,22 @@
 
 .style_c1 {
 	&.stroke {
-		stroke:#aaf;
+		stroke:#fff;
+		transition: stroke 1s;
 	}
 	&.fill {
-		fill:#aaf;
+		fill:#fff;
+		transition: fill 1s;
 	}
 	&.text {
-		color:#aaf;
+		color:#fff;
+		transition: color 1s;
 	}
 }
 .style_c2 {
 	&.back {
-		background-color:#00f;
+		background-color:#fff;
+		transition: background-color 1s;
 	}
 }
 

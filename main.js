@@ -304,7 +304,7 @@ function chrono_next()
 		chrono_display_color(chrono_queue_here().m_display_c1,chrono_queue_here().m_display_c2);
 		chrono_clock_start(chrono_queue_here().m_sett_time);
 	} else {
-		chrono_display_color("#aaf","#00f");
+		chrono_display_color("#000","#fff");
 		cat_add(`fini !`,"green");
 	}
 }
@@ -377,6 +377,7 @@ function chrono_display_timer_init()
 	display_timer_is_r=!(timer_reverse && timer_span_fresh_ms>0);
 	display_timer_is_m=!(timer_span_fresh_ms>60000);
 
+	chrono_display_color("#000","#fff");
 	chrono_display_timer_refresh();
 }
 
@@ -391,6 +392,13 @@ function chrono_display_action_start()
 
 function chrono_display_color(f_c1, f_c2)
 {
+	{//c2
+		for (const v of display_texts_c2_back)
+		{
+			v.style["background-color"]=f_c2;
+		}
+	}
+	
 	{//c1
 		for (const v of display_texts_c1_stroke)
 		{
@@ -403,12 +411,6 @@ function chrono_display_color(f_c1, f_c2)
 		for (const v of display_texts_c1_text)
 		{
 			v.style["color"]=f_c1;
-		}
-	}
-	{//c2
-		for (const v of display_texts_c2_back)
-		{
-			v.style["background-color"]=f_c2;
 		}
 	}
 }
@@ -574,6 +576,10 @@ cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 //--- functions/action ---
 
+function chrono_action_pause()
+{
+	chrono_clock_pause();
+}
 function chrono_action_start()
 {
 	chrono_next();
@@ -595,8 +601,8 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
 queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
-queue_elements.push(new Queue(1500,2,true,"REPOS",true,false,"#ffa","#fa0"));
-queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,false,"#afa","#0a0"));
+queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#ffa","#fa0"));
+queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#afa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
