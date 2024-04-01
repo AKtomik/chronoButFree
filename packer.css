@@ -31,7 +31,7 @@ background-color: #f00;/*dbug*/
 				
 				
 					/* the box for the clock svg */
-					&.Sclock {
+					&.clock {
 						svg {
 							position: absolute;
 							z-index: 1;
@@ -39,7 +39,7 @@ background-color: #f00;/*dbug*/
 					}
 
 					/* the box for middle texts */
-					&.Smiddle {
+					&.middle {
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -58,7 +58,7 @@ background-color: #f00;/*dbug*/
 
 					}
 					/* the box for all texts */
-					&.Stext {
+					&.text {
 
 
 						.marger {

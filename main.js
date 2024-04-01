@@ -382,6 +382,7 @@ function chrono_display_menu_switch(f_state)
 		for (const v of display_menus[1])
 		{
 			v.style["opacity"]="0";
+			v.style["display"]="none";
 		}
 	}
 	if (display_menu_actual===2)
@@ -389,6 +390,7 @@ function chrono_display_menu_switch(f_state)
 		for (const v of display_menus[2])
 		{
 			v.style["opacity"]="0";
+			v.style["display"]="none";
 		}
 	}
 	
@@ -400,6 +402,7 @@ function chrono_display_menu_switch(f_state)
 		for (const v of display_menus[1])
 		{
 			v.style["opacity"]="1";
+			v.style["display"]="";
 		}
 	}
 	if (display_menu_actual===2)
@@ -407,11 +410,13 @@ function chrono_display_menu_switch(f_state)
 		for (const v of display_menus[2])
 		{
 			v.style["opacity"]="1";
+			v.style["display"]="";
 		}
 	}
 	for (const v of display_menus[3])
 	{
 		v.style["opacity"]="1";
+		v.style["display"]="";
 	}
 }
 
