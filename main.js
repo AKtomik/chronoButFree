@@ -60,6 +60,9 @@ let display_texts_c1_stroke=document.querySelectorAll(".style_c1.stroke");
 let display_texts_c1_text=document.querySelectorAll(".style_c1.text");
 let display_texts_c2_back=document.querySelectorAll(".style_c2.back");
 
+let display_options_itms=document.querySelectorAll(".itm");
+let display_options_itms_father=document.querySelector(".itms");
+
 let display_menu_actual=0;
 let display_menus=[
 	0,
@@ -387,6 +390,7 @@ function chrono_display_menu_switch(f_state)
 	}
 	if (display_menu_actual===2)
 	{
+		chrono_options_read_all()//!
 		for (const v of display_menus[2])
 		{
 			v.style["opacity"]="0";
@@ -632,7 +636,59 @@ function chrono_display_timer_refresh()
 }
 
 
-cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
+//--- functions/menu ---
+
+function chrono_my_child(f_childs,f_query)
+{
+	for (let i=0;i < f_childs.length;i++)
+	{
+		if (f_childs[i].matches(f_query))
+		{
+			return f_childs[i];
+		}
+	}
+	return;
+}
+
+function chrono_my_childs(f_childs,f_query)
+{
+	r_matcher=[]
+	for (let i=0;i < f_childs.length;i++)
+	{
+		if (f_childs[i].matches(f_query))
+		{
+			r_matcher.push(f_childs[i]);
+		}
+	}
+	return r_matcher;
+}
+
+function chrono_options_read_itm(f_doc_itm)
+{
+	cat_add(`father class : ${f_doc_itm.getAttribute("class")}`);
+	let here_child=chrono_my_child(f_doc_itm.children,".itm_name");
+	cat_add(`child value : ${here_child.value}`);
+	cat_add(`create queue : 
+	time[${chrono_my_child(f_doc_itm.children,".itm_name").value}] 
+	itr[${chrono_my_child(f_doc_itm.children,".itm_iter").value}]
+	time[${chrono_my_child(f_doc_itm.children,".itm_time").value}]
+	`);
+	//return new Queue();
+	//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
+}
+
+function chrono_options_read_all()
+{
+	queue_elements=[];
+	let here_fathers=chrono_my_childs(display_options_itms_father.children,".itm");
+	for (let i=0;i < here_fathers.length;i++)
+	{
+		let here_queue=chrono_options_read_itm(here_fathers[i]);
+		//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
+	}
+}
+
+
 
 
 //--- functions/action ---
@@ -673,6 +729,8 @@ function chrono_action_press(f_event)
 
 
 //--- launcher ---
+
+cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 chrono_display_menu_switch(1);
 chrono_display_timer_init();

@@ -57,26 +57,42 @@ background-color: #f00;/*dbug*/
 						}
 
 					}
+					
 					/* the box for all texts */
-					&.text {
+					.marger {
+						width: 100%;
+						height: 100%;
 
+						/*outline: #f00 dashed 3px;*/
 
-						.marger {
+						&.a1 {
+							height: 25%;
+						}
+						&.b1 {
+							/*height: 50%;*/
+							height: 70%;
+						}
+						&.c1 {
+							height: 0%;
+						}
+						&.a2 {
+							height: 30%;
+						}
+					}
+
+					/* options box */
+					.optionsitm {
+						outline: #0f0 dashed 5px;
+						width: 80%;
+						margin-bottom: 20%;
+						height: 60%;
+
+						z-index: 2;
+
+						.itm {
+							outline: #f00 dashed 3px;
 							width: 100%;
-							height: 100%;
-
-							/*outline: #f00 dashed 3px;*/
-
-							&.a {
-								height: 25%;
-							}
-							&.b {
-								/*height: 50%;*/
-								height: 70%;
-							}
-							&.c {
-								height: 0%;
-							}
+							height: 10%;
 						}
 					}
 							
