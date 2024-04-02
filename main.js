@@ -60,8 +60,7 @@ let display_texts_c1_stroke=document.querySelectorAll(".style_c1.stroke");
 let display_texts_c1_text=document.querySelectorAll(".style_c1.text");
 let display_texts_c2_back=document.querySelectorAll(".style_c2.back");
 
-let display_options_itms=document.querySelectorAll(".itm");
-let display_options_itms_father=document.querySelector(".itms");
+let display_options_itms_grandfather=document.querySelector(".itms");
 
 let display_menu_actual=0;
 let display_menus=[
@@ -82,7 +81,7 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#fff",f_display_c2="#000") {
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#0000") {
 
 		this.m_remain_loop=f_sett_loop;
 		
@@ -411,6 +410,7 @@ function chrono_display_menu_switch(f_state)
 	}
 	if (display_menu_actual===2)
 	{
+		chrono_options_write_all()//!
 		for (const v of display_menus[2])
 		{
 			v.style["opacity"]="1";
@@ -665,29 +665,100 @@ function chrono_my_childs(f_childs,f_query)
 
 function chrono_options_read_itm(f_doc_itm)
 {
-	cat_add(`father class : ${f_doc_itm.getAttribute("class")}`);
+	//cat_add(`father class : ${f_doc_itm.getAttribute("class")}`);
 	let here_child=chrono_my_child(f_doc_itm.children,".itm_name");
-	cat_add(`child value : ${here_child.value}`);
-	cat_add(`create queue : 
-	time[${chrono_my_child(f_doc_itm.children,".itm_name").value}] 
-	itr[${chrono_my_child(f_doc_itm.children,".itm_iter").value}]
-	time[${chrono_my_child(f_doc_itm.children,".itm_time").value}]
-	`);
-	//return new Queue();
+	//cat_add(`child value : ${here_child.value}`);
+
+	let here_time_txt=chrono_my_child(f_doc_itm.children,".itm_time").value;
+	//here_time_txt.trim(":");
+	let here_time_int=Number(here_time_txt)*1000;
+
+	let here_iter_txt=chrono_my_child(f_doc_itm.children,".itm_iter").value;
+	let here_iter_int=Number(here_iter_txt);
+
+	let here_name_txt=chrono_my_child(f_doc_itm.children,".itm_name").value;
+	here_name_txt=here_name_txt.toUpperCase();
+
+	return new Queue(
+	here_time_int,
+	here_iter_int,
+	false,
+	here_name_txt
+	);
 	//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
 }
 
 function chrono_options_read_all()
 {
 	queue_elements=[];
-	let here_fathers=chrono_my_childs(display_options_itms_father.children,".itm");
+	let here_fathers=chrono_my_childs(display_options_itms_grandfather.children,".itm");
 	for (let i=0;i < here_fathers.length;i++)
 	{
 		let here_queue=chrono_options_read_itm(here_fathers[i]);
+		here_queue.m_display_c1="fffa";
+		queue_elements.push(here_queue);
 		//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
 	}
+	console.log(queue_elements);
 }
 
+
+function chrono_options_write_itm(f_queue)
+{
+	let here_newitm=document.createElement("div");
+	here_newitm.className="itm texter";
+
+	{//type iter
+		let here_child=document.createElement("input");
+		here_child.className="itm_iter";
+		here_child.min="1";
+		here_child.max="9";
+		here_child.size="2";
+
+		here_child.value=f_queue.m_sett_loop;
+		
+		here_newitm.appendChild(here_child);
+	}
+
+	{//type time
+		let here_child=document.createElement("input");
+		here_child.className="itm_time";
+
+		here_child.value=f_queue.m_sett_time;
+		
+		here_newitm.appendChild(here_child);
+	}
+
+	{//type name
+		let here_child=document.createElement("input");
+		here_child.className="itm_name";
+		here_child.minLength="2";
+		here_child.maxLength="8";
+		here_child.size="8";
+
+		here_child.value=f_queue.m_display_name;
+		
+		here_newitm.appendChild(here_child);
+	}
+
+	display_options_itms_grandfather.appendChild(here_newitm);
+}
+
+function chrono_options_write_all()
+{
+	//kill all ded childrens
+	while(display_options_itms_grandfather.firstChild)
+	{
+		display_options_itms_grandfather.removeChild(display_options_itms_grandfather.lastChild);
+	}
+
+	//create a new generation
+	for (let i=0;i < queue_elements.length;i++)
+	{
+		chrono_options_write_itm(queue_elements[i]);
+	}
+	console.log(queue_elements);
+}
 
 
 
@@ -737,9 +808,9 @@ chrono_display_timer_init();
 
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
-queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
-queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#ffa","#fa0"));
-queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#afa","#0a0"));
+queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#fffa","#f00"));
+queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#fffa","#fa0"));
+queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
