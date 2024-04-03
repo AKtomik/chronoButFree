@@ -75,9 +75,6 @@ background-color: #000;/*dbug*/
 						&.c1 {
 							height: 0%;
 						}
-						&.a2 {
-							height: 30%;
-						}
 					}
 
 					/* options box */
@@ -89,10 +86,34 @@ background-color: #000;/*dbug*/
 
 						z-index: 2;
 
-						.itm {
-							outline: #f00 dashed 3px;
-							width: 100cw;
-							height: 5svh;
+						.config_all {
+							height: 30%;
+							outline: #f0f dashed 5px;
+							
+							display: flex;
+
+							align-items: center;
+							justify-content: center;
+							text-align: center;
+							
+							.config {
+								height: 100%;
+								outline: #ff0 dashed 3px;
+								&.category {
+									width: 20%;
+								}
+								&.advance {
+									width: 20%;
+								}
+							}
+						}
+
+						.itms {
+							.itm {
+								outline: #f00 dashed 3px;
+								width: 100cw;
+								height: 5svh;
+							}
 						}
 					}
 							

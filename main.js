@@ -81,7 +81,7 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#0000") {
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#000f") {
 
 		this.m_remain_loop=f_sett_loop;
 		
@@ -376,7 +376,7 @@ function chrono_countdown_recursive(f_id)
  */
 function chrono_display_menu_switch(f_state)
 {
-	console.log(`switch ${f_state} from ${display_menu_actual}`)
+	//console.log(`switch ${f_state} from ${display_menu_actual}`)
 	//out
 	if (display_menu_actual===1)
 	{
@@ -696,10 +696,11 @@ function chrono_options_read_all()
 	{
 		let here_queue=chrono_options_read_itm(here_fathers[i]);
 		here_queue.m_display_c1="fffa";
+		here_queue.m_display_c2="000f";
 		queue_elements.push(here_queue);
 		//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
 	}
-	console.log(queue_elements);
+	//console.log(queue_elements);
 }
 
 
@@ -711,8 +712,8 @@ function chrono_options_write_itm(f_queue)
 	{//type iter
 		let here_child=document.createElement("input");
 		here_child.className="itm_iter";
-		here_child.min="1";
-		here_child.max="9";
+		here_child.minLength="1";
+		here_child.maxLength="2";
 		here_child.size="2";
 
 		here_child.value=f_queue.m_sett_loop;
@@ -723,8 +724,13 @@ function chrono_options_write_itm(f_queue)
 	{//type time
 		let here_child=document.createElement("input");
 		here_child.className="itm_time";
+		here_child.minLength="1";
+		here_child.maxLength="6";
+		//here_child.min="1";
+		//here_child.max="3599999";
+		here_child.size="6";
 
-		here_child.value=f_queue.m_sett_time;
+		here_child.value=f_queue.m_sett_time/1000;
 		
 		here_newitm.appendChild(here_child);
 	}
@@ -733,8 +739,8 @@ function chrono_options_write_itm(f_queue)
 		let here_child=document.createElement("input");
 		here_child.className="itm_name";
 		here_child.minLength="2";
-		here_child.maxLength="8";
-		here_child.size="8";
+		here_child.maxLength="10";
+		here_child.size="10";
 
 		here_child.value=f_queue.m_display_name;
 		
@@ -757,7 +763,7 @@ function chrono_options_write_all()
 	{
 		chrono_options_write_itm(queue_elements[i]);
 	}
-	console.log(queue_elements);
+	//console.log(queue_elements);
 }
 
 
