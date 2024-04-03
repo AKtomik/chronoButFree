@@ -9,6 +9,8 @@ const sett_interval=20;
 //60 fps : 16.6
 const sett_fillContrary=false;//force fill to be contrary to the last (avoid)
 
+const sett_menu_maxqueue=7;
+
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
 /**
@@ -679,6 +681,7 @@ function chrono_options_read_itm(f_doc_itm)
 	let here_name_txt=chrono_my_child(f_doc_itm.children,".itm_name").value;
 	here_name_txt=here_name_txt.toUpperCase();
 
+
 	return new Queue(
 	here_time_int,
 	here_iter_int,
@@ -691,7 +694,7 @@ function chrono_options_read_itm(f_doc_itm)
 function chrono_options_read_all()
 {
 	queue_elements=[];
-	let here_fathers=chrono_my_childs(display_options_itms_grandfather.children,".itm");
+	let here_fathers=chrono_my_childs(display_options_itms_grandfather.children,".itm.queueelement");
 	for (let i=0;i < here_fathers.length;i++)
 	{
 		let here_queue=chrono_options_read_itm(here_fathers[i]);
@@ -704,13 +707,26 @@ function chrono_options_read_all()
 }
 
 
-function chrono_options_write_itm(f_queue)
+function chrono_options_write_itm(f_queue,f_index)
 {
 	let here_newitm=document.createElement("div");
-	here_newitm.className="itm texter";
+	here_newitm.className="itm texter queueelement";
+
+	{//delete button
+		let here_child=document.createElement("input");
+		here_child.type="button";
+		here_child.className="itm_minus";
+
+		here_child.value="-";
+
+		here_child.onclick=function() {chrono_action_menu_queue_remove(f_index)};
+		
+		here_newitm.appendChild(here_child);
+	}
 
 	{//type iter
 		let here_child=document.createElement("input");
+		here_child.type="text";
 		here_child.className="itm_iter";
 		here_child.minLength="1";
 		here_child.maxLength="2";
@@ -723,6 +739,7 @@ function chrono_options_write_itm(f_queue)
 
 	{//type time
 		let here_child=document.createElement("input");
+		here_child.type="text";
 		here_child.className="itm_time";
 		here_child.minLength="1";
 		here_child.maxLength="6";
@@ -737,6 +754,7 @@ function chrono_options_write_itm(f_queue)
 
 	{//type name
 		let here_child=document.createElement("input");
+		here_child.type="text";
 		here_child.className="itm_name";
 		here_child.minLength="2";
 		here_child.maxLength="10";
@@ -761,8 +779,29 @@ function chrono_options_write_all()
 	//create a new generation
 	for (let i=0;i < queue_elements.length;i++)
 	{
-		chrono_options_write_itm(queue_elements[i]);
+		chrono_options_write_itm(queue_elements[i],i);
 	}
+
+	//the creator
+	if (queue_elements.length<sett_menu_maxqueue) {
+		let here_newitm=document.createElement("div");
+		here_newitm.className="itm texter";
+
+		{//create button
+			let here_child=document.createElement("input");
+			here_child.type="button";
+			here_child.className="itm_iter";
+
+			here_child.value="+";
+
+			here_child.onclick=function() {chrono_action_menu_queue_add()};
+
+			here_newitm.appendChild(here_child);
+		}
+
+		display_options_itms_grandfather.appendChild(here_newitm);
+	}
+
 	//console.log(queue_elements);
 }
 
@@ -781,13 +820,28 @@ function chrono_action_play()
 			chrono_next();//start
 }
 
-function chrono_action_menu()
+
+function chrono_action_menu_switch()
 {
 	if (display_menu_actual===2)
 		chrono_display_menu_switch(1);
 	else
 		chrono_display_menu_switch(2);
 }
+
+function chrono_action_menu_queue_add()
+{
+	queue_elements.push(new Queue(60000,1,true,"NEW"));
+	chrono_options_write_all();
+}
+
+function chrono_action_menu_queue_remove(f_i)
+{
+	delete queue_elements.splice(f_i,1);
+	chrono_options_write_all();
+}
+
+
 
 function chrono_action_press(f_event)
 {
@@ -814,9 +868,18 @@ chrono_display_timer_init();
 
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
-queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#fffa","#f00"));
-queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#fffa","#fa0"));
-queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
+//raimbow
+//queue_elements.push(new Queue(100,1,false,"a",false,true,"#fffa","#f00"));
+//queue_elements.push(new Queue(100,1,false,"a",false,true,"#fffa","#ff0"));
+//queue_elements.push(new Queue(100,1,false,"a",false,true,"#fffa","#0f0"));
+//queue_elements.push(new Queue(100,1,false,"a",false,true,"#fffa","#0ff"));
+//queue_elements.push(new Queue(100,1,false,"a",false,true,"#fffa","#00f"));
+//queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
+
+//sport
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00"));
+queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0"));
+queue_elements.push(new Queue(360000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));

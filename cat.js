@@ -58,6 +58,6 @@ function cat_display()
 }
 
 
-//you say it's cat ? 
+//you say it's chat ? 
 //no
 //cat it's sounds better.
