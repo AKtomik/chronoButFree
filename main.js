@@ -103,6 +103,7 @@ class Queue {
 
 function chrono_queue_next()
 {
+
 	if (queue_index<0)
 	{
 		queue_index=0;
@@ -320,7 +321,12 @@ function chrono_next()
 	chrono_clock_o();
 
 	//go next
-	if (chrono_queue_next())//do next and check if has next
+	if (queue_elements.length===0)
+	{//countup special case
+		//chrono_display_color(chrono_queue_here().m_display_c1,chrono_queue_here().m_display_c2);
+		chrono_clock_start(0);
+	}
+	else if (chrono_queue_next())//do next and check if has next
 	{
 		chrono_display_color(chrono_queue_here().m_display_c1,chrono_queue_here().m_display_c2);
 		chrono_clock_start(chrono_queue_here().m_sett_time);
@@ -877,9 +883,9 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00"));
-queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0"));
-queue_elements.push(new Queue(360000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
+queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#fffa","#f00"));
+queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#fffa","#fa0"));
+queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
