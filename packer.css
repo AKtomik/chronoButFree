@@ -1,10 +1,10 @@
-/* -- boxs -- */
 body {
 background-color: #000;/*dbug*/
 
+/* -- boxs -- */
 	margin: 0;
 	padding: 0;
-	#box_full {
+	#box_all_full {
 		width: 100vw;
 		height: 100vh;
 
@@ -14,140 +14,128 @@ background-color: #000;/*dbug*/
 		align-items: center;
 		justify-content: center;
 
-		#box_rectangle {/* useless for now */
+		#box_all_rectangle {/* useless for now */
 
-			#box_square {/* the square, empty */
+			#box_all_square {/* the square, empty */
 
 				width: 90vmin;
 				height: 90vmin;
 				
 				/* for all layers */
 				position: relative;/*to overlaps*/
-				
-				.square {
-					width: 100%;
-					height: 100%;
-					position: absolute;
-				
-				
-					/* the box for the clock svg */
-					&.clock {
-						svg {
-							position: absolute;
-							z-index: 1;
-						}
-					}
 
-					/* the box for middle texts */
-					&.middle {
-						display: flex;
-						align-items: center;
-						justify-content: center;
+				/* in : .square */
 
-						text-align: center;
-						
-						.texter {
-							font-size: 0;/* no space between items*/
-						
-							/*outline: #ff0 dashed 2px;*/
-							
-							p {
-							display: inline;
-							}
-						}
+			}
+		}
+	}
 
-					}
-					
-					/* the box for all texts */
-					.marger {
-						width: 100%;
-						height: 100%;
 
-						/*outline: #f00 dashed 3px;*/
+/* -- squares -- */
 
-						&.a1 {
-							height: 25%;
-						}
-						&.b1 {
-							/*height: 50%;*/
-							height: 70%;
-						}
-						&.c1 {
-							height: 0%;
-						}
-					}
+	.square {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+	
+	/* what indise : */
+		/* the box for the clock svg */
+		&.sclock {
+			svg {
+				position: absolute;
+				z-index: 1;
+			}
+		}
+		/* the box for all texts */
+		&.stext {
+			.texter {/* a div with paragraphs inside */
+				font-size: 0;/* no space between items */
+				text-align: center;
+			}
+		}
 
-					/* options box */
-					.optionsitm {
-						outline: #0f0 dashed 5px;
-						width: 80%;
-						margin-bottom: 20%;
-						height: 60%;
 
-						z-index: 2;
+	/* the position */
+	
+		/* in the middle of the square */
+		&.toup {
+			.marger {
+				width: 100%;
+				height: 100%;
 
-						.config_all {
-							height: 30%;
-							outline: #f0f dashed 5px;
-							
-							display: flex;
+				/*outline: #f00 dashed 3px;*/
 
-							align-items: center;
-							justify-content: center;
-							text-align: center;
-							
-							.config {
-								height: 100%;
-								outline: #ff0 dashed 3px;
-								&.category {
-									width: 20%;
-								}
-								&.advance {
-									width: 20%;
-								}
-							}
-						}
-
-						.itms {
-							.itm {
-								outline: #f00 dashed 3px;
-								width: 100cw;
-								height: 5svh;
-							}
-						}
-					}
-							
-					.texter {
-						font-size: 0;/* no space between items*/
-					
-						/*outline: #0f0 dashed 2px;*/
-
-						text-align: center;
-
-						.style_size_p1 {
-							font-size: 20vmin;
-						}
-						.style_size_p2 {
-							font-size: 20vmin;
-						}
-						.style_size_p3 {
-							font-size: 10vmin;
-						}
-						.style_size_h1 {
-							font-weight:bolder;
-							font-size: 8vmin;
-						}
-						.style_size_h2 {
-							font-size: 5vmin;
-						}
-						
-						p {
-							margin:0;
-							padding:0;
-							display: inline;
-						}
-					}
+				&.aa {
+					height: 25%;
 				}
+				&.ab {
+					height: 70%;
+				}
+				&.ac {
+					height: 0%;
+				}
+			}
+		}
+		/* in the middle of the square */
+		&.tomiddle {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			text-align: center;
+			
+			.texter {
+				font-size: 0;/* no space between items*/
+			
+				/*outline: #ff0 dashed 2px;*/
+				
+				p {
+				display: inline;
+				}
+			}
+		}
+	}
+
+
+/* -- config parth -- */
+
+
+	/* options box */
+	#box_config_full {
+		outline: #0f0 dashed 5px;
+		width: 80%;
+		margin-bottom: 20%;
+		height: 60%;
+
+		z-index: 2;
+
+		#box_config_common {
+			height: 30%;
+			outline: #f0f dashed 5px;
+			
+			display: flex;
+
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			
+			.config {
+				height: 100%;
+				outline: #ff0 dashed 3px;
+				&.category {
+					width: 20%;
+				}
+				&.advance {
+					width: 20%;
+				}
+			}
+		}
+
+		#box_config_itms {
+			.itm {
+				outline: #f00 dashed 3px;
+				width: 100cw;
+				height: 5svh;
 			}
 		}
 	}
@@ -163,11 +151,12 @@ background-color: #000;/*dbug*/
 
 
 		#msg_cat {
+			position: absolute;
+			bottom:2vmax;
 			font-size:1vmax;
 		}
 		#msg_the {
 			font-size:1vmax;
 		}
-
 	}
 }

@@ -57,19 +57,19 @@ let display_button_start=document.querySelectorAll(".button.start")[0];
 let display_button_pause=document.querySelectorAll(".button.pause")[0];
 let display_button_continue=document.querySelectorAll(".button.continue")[0];
 
-let display_texts_c1_fill=document.querySelectorAll(".style_c1.fill");
-let display_texts_c1_stroke=document.querySelectorAll(".style_c1.stroke");
-let display_texts_c1_text=document.querySelectorAll(".style_c1.text");
-let display_texts_c2_back=document.querySelectorAll(".style_c2.back");
+let display_texts_c1_fill=document.querySelectorAll(".style_color_c1.fill");
+let display_texts_c1_stroke=document.querySelectorAll(".style_color_c1.stroke");
+let display_texts_c1_text=document.querySelectorAll(".style_color_c1.text");
+let display_texts_c2_back=document.querySelectorAll(".style_color_c2.back");
 
-let display_options_itms_grandfather=document.querySelector(".itms");
+let display_options_itms_grandfather=document.getElementById("box_config_itms");
 
 let display_menu_actual=0;
 let display_menus=[
 	0,
-	document.querySelectorAll(".menu.first"),
-	document.querySelectorAll(".menu.second"),
-	document.querySelectorAll(".menu.last"),
+	document.querySelectorAll(".menu.mclock"),
+	document.querySelectorAll(".menu.moptions"),
+	document.querySelectorAll(".menu.mall"),
 ]
 
 

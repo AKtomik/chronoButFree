@@ -15,103 +15,111 @@
 </head>
 <body onkeydown=chrono_action_press(event)>
 
-<div id="box_full" class="style_c2 back">
-<div id="box_rectangle">
-<div id="box_square">
-
-<!-- svg -->
-	<div class="square clock">
-	<svg viewBox="0 0 1000 1000">
+<div id="box_all_full" class="style_color_c2 back">
+	<div id="box_all_rectangle">
+		<div id="box_all_square">
+		<!-- .square .<what inside> .<placement> -->
 		
-		<!-- alpha elements -->
-		<g class="menu first">
-			<path d="M 500 100 A 400 400 0 1 1 500 900 A 400 400 0 1 1 500 100" fill-opacity="0" stroke="#000f" stroke-width="2"/>
-		</g>
-		<g class="menu second">
-			<path d="M 100 100 L 900 100 L 900 900 L 100 900 Z" fill-opacity="0" stroke="#000f" stroke-width="2"/>
-		</g>
-
-		<!-- dynamic elements -->
-		<g class="menu first">
-			<line class="style_c1 stroke" id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
-			<path class="style_c1 stroke" id="vector_dynamic_arc" d="M 500 100 A 400 400 0 1 1 500 100"/>
-		</g>
+		<!-- .menu .<menu name:> -->
+			<!-- :mclock -->
+			<!-- :moptions -->
+			<!-- ... -->
+			<!-- :mall -->
 		
-		<!-- buttons -->
-		<g class="menu last">
-			<path class="style_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="chrono_action_menu_switch()"/>
-		</g>
-		<g class="menu first">
-			<path class="style_c1 fill button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
-			<path class="style_c1 fill button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
-			<path class="style_c1 fill button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="chrono_action_play()"/>
-		</g>
-	</svg>
-	</div>
+		<!-- .style_<color:> <type:> -->
+			<!-- :c1 = main color -->
+			<!-- :c2 = second color -->
+			<!-- :fill = using atr fill -->
+			<!-- :stroke = using atr stroke -->
+			<!-- :stroke = using atr stroke -->
 
 
 
-<!-- texts -->
-	<div class="square middle  menu first">
-		<div class="texter timer">
-			<p id="timer_m" class="style_c1 text style_size_p1">0</p>
-			<p id="timer_wrap1" class="style_c1 text style_size_p2">:</p>
-			<p id="timer_s" class="style_c1 text style_size_p1">00</p>
-			<p id="timer_wrap2" class="style_c1 text style_size_p2">.</p>
-			<p id="timer_ms" class="style_c1 text style_size_p3">000</p>
-		</div>
-	</div>
+		<!-- svg -->
+			<div class="square sclock tosvg"><!-- a square -->
+				<svg viewBox="0 0 1000 1000">
+					<!-- alpha elements -->
+					<g class="menu mclock">
+						<path d="M 500 100 A 400 400 0 1 1 500 900 A 400 400 0 1 1 500 100" fill-opacity="0" stroke="#000f" stroke-width="2"/>
+					</g>
+					<g class="menu moptions">
+						<path d="M 100 100 L 900 100 L 900 900 L 100 900 Z" fill-opacity="0" stroke="#000f" stroke-width="2"/>
+					</g>
 
-	<div class="square text  menu first">
-		<div class="marger a1">
-		</div>
-		<div class="marger b1">
-			<div class="texter">
-				<p id="text_title" class="style_c1 text style_size_h1">
-					indev
-				</p>
+					<!-- dynamic elements -->
+					<g class="menu mclock">
+						<line class="style_color_c1 stroke" id="vector_dynamic_line" x1="50%" y1="10%" x2="50%" y2="50%"></line>
+						<path class="style_color_c1 stroke" id="vector_dynamic_arc" d="M 500 100 A 400 400 0 1 1 500 100"/>
+					</g>
+					
+					<!-- buttons -->
+					<g class="menu mall">
+						<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="chrono_action_menu_switch()"/>
+					</g>
+					<g class="menu mclock">
+						<path class="style_color_c1 fill button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
+						<path class="style_color_c1 fill button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
+						<path class="style_color_c1 fill button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="chrono_action_play()"/>
+					</g>
+				</svg>
 			</div>
-		</div>
-		
-		<div class="marger c1">
-			<div class="texter">
-				<p id="text_comment" class="style_c1 text style_size_h2">
-					zero. for now.
-				</p>
-			</div>
-		</div>
-	</div>
 
-	<div class="square middle  menu second">
-		<div class="optionsitm">
-			<div class="config_all">
-				<div class="config category">
-					<button>
-					categories
-					</button>
-					<div>
-						<p>chronomètre</p>
-						<p>sport</p>
-						<p>minutes</p>
-						<p>respiration</p>
+
+
+		<!-- texts -->
+			<div class="square stext tomiddle  menu mclock"><!-- a square -->
+				<div class="texter timer">
+					<!-- #timer_<element> -->
+					<p id="timer_m" class="style_color_c1 text style_size_p1">0</p>
+					<p id="timer_wrap1" class="style_color_c1 text style_size_p2">:</p>
+					<p id="timer_s" class="style_color_c1 text style_size_p1">00</p>
+					<p id="timer_wrap2" class="style_color_c1 text style_size_p2">.</p>
+					<p id="timer_ms" class="style_color_c1 text style_size_p3">000</p>
+				</div>
+			</div>
+
+			<div class="square stext toup  menu mclock"><!-- a square -->
+				<div class="marger aa">
+				</div>
+				<div class="marger ab">
+					<div class="texter">
+						<p id="text_title" class="style_color_c1 text style_size_h1">
+							&#60;INDEV&#62;
+						</p>
 					</div>
 				</div>
-				<div class="config advance">
-					<label class="switch">
-						<input type="checkbox">
-						<span class="slider round"></span>
-					</label>
+				
+				<div class="marger ac">
+					<div class="texter">
+						<p id="text_comment" class="style_color_c1 text style_size_h2">
+							&#60;zero&#62;
+						</p>
+					</div>
 				</div>
+			</div>
 
+			<div class="square stext tomiddle  menu moptions"><!-- a square -->
+				<div id="box_config_full">
+					<div id="box_config_common">
+						<div class="config category">
+						</div>
+						<div class="config advance">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
+						</div>
+
+					</div>
+					<!--<div id="itms">-->
+					<div id="box_config_itms">
+						<!-- js will written here -->
+					</div>
+				</div>
 			</div>
-			<div class="itms">
-				<!-- js will written here -->
-			</div>
+
 		</div>
 	</div>
-
-</div>
-</div>
 </div>
 
 <!-- cat message -->
