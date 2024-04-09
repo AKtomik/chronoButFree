@@ -768,7 +768,7 @@ function chrono_options_write_itm(f_queue,f_index)
 
 		here_child.value="-";
 
-		here_child.onclick=function() {chrono_action_menu_queue_remove(f_index)};
+		here_child.onclick=function() {config_remove(f_index)};
 		
 		here_newitm.appendChild(here_child);
 	}
@@ -843,7 +843,7 @@ function chrono_options_write_all()
 
 			here_child.value="+";
 
-			here_child.onclick=function() {chrono_action_menu_queue_add()};
+			here_child.onclick=function() {config_add()};
 
 			here_newitm.appendChild(here_child);
 		}
@@ -893,7 +893,7 @@ function config_load()
 /**
  * play the time
  */
-function act_play()
+function play()
 {
 	if (timer_paused)
 		chrono_clock_continue();
@@ -908,13 +908,13 @@ function act_play()
  * when any key is pressed, to trigger potential keybind
  * @param {key} f_event the event key pressed
  */
-function act_press(f_event)
+function keypress(f_event)
 {
 	let here_key=String(f_event.key);
 
 	if (here_key===" ")
 	{
-		chrono_action_play();
+		play();
 	}
 }
 
