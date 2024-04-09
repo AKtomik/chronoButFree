@@ -67,6 +67,7 @@
 							<path class="style_color_c1 fill  button open choice" d="M 200 750 L 300 750 L 250 850 Z" onclick="menu_switch(3)"/>
 						</g>
 						<g class="menu mchoice">
+							<path class="style_color_c1 fill  button close config" d="M 500 750 A 50 50 0 1 1 450 800 L 450 750 Z" onclick="menu_switch(1)"/>
 							<path class="style_color_c1 fill  button close choice" d="M 200 850 L 300 850 L 250 750 Z" onclick="menu_switch(2)"/>
 						</g>
 						<g class="menu mclock">
@@ -137,6 +138,29 @@
 					</div>
 					<div id="box_choice_itms" class="menu mchoice">
 						<div class="itm">
+							<button onclick='config_load([])'>
+								timer
+							</button>
+						</div>
+						<div class="itm">
+							<button onclick='config_load([new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00"),new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0"),new Queue(300000,2,true,"PAUSE",true,true,"#fffa","#0a0")])'>
+								sportif - dynamique - 10*(45'/15')
+							</button>
+						</div>
+						<div class="itm">
+							<button onclick='config_load([new Queue(60000,5,true,"EXERCICE",false,true,"#fffa","#f00"),new Queue(6000,3,true,"REPOS",true,true,"#fffa","#fa0")])'>
+								sportif - gaignage - (5*60')/60'
+							</button>
+						</div>
+						<div class="itm">
+							<button onclick='config_load([new Queue(300000,1,true,"NORMAL",false,true,"#fffa","#fa0"),new Queue(120000,1,true,"RAPIDE",true,true,"#fffa","#fa0"),new Queue(180000,3,true,"DOUX",true,true,"#fffa","#3a0")])'>
+								sportif - cardio - 420'/180'
+							</button>
+						</div>
+						<div class="itm">
+							<button onclick='config_load([new Queue(150000,1,true,"CUSSION",false,true,"#fffa","#fa0")])'>
+								cuisine - oeufs à la coque
+							</button>
 						</div>
 					</div>
 				</div>

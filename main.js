@@ -885,9 +885,9 @@ function config_remove(f_i)
 	chrono_options_write_all();
 }
 
-function config_load()
+function config_load(f_newqueue)
 {
-	//indev
+	queue_elements=f_newqueue;
 }
 
 /**
@@ -936,9 +936,9 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#fffa","#f00"));
-queue_elements.push(new Queue(1500,10,true,"REPOS",true,true,"#fffa","#fa0"));
-queue_elements.push(new Queue(36000,2,true,"GRANDE PAUSE",true,true,"#fffa","#0a0"));
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00"));
+queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0"));
+queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0"));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
