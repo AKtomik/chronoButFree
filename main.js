@@ -68,7 +68,8 @@ let display_menu_actual=0;
 let display_menus=[
 	0,
 	document.querySelectorAll(".menu.mclock"),
-	document.querySelectorAll(".menu.moptions"),
+	document.querySelectorAll(".menu.mconfig"),
+	document.querySelectorAll(".menu.mchoice"),
 	document.querySelectorAll(".menu.mall"),
 ]
 
@@ -215,6 +216,21 @@ function chrono_use_plural(f_num,f_end="s")
 		return "";
 	else
 		return f_end;
+}
+
+
+function chrono_use_visibility(f_element,f_visible)
+{
+	if (f_visible)
+	{
+		f_element.style["opacity"]="1";
+		f_element.style["display"]="";
+		f_element.style["pointer-events"]="";
+	} else {
+		f_element.style["opacity"]="0";
+		f_element.style["display"]="none";
+		f_element.style["pointer-events"]="none";
+	}
 }
 
 //--- functions/game ---
@@ -384,15 +400,24 @@ function chrono_countdown_recursive(f_id)
  */
 function chrono_display_menu_switch(f_state)
 {
-	//console.log(`switch ${f_state} from ${display_menu_actual}`)
+	console.log(`switch ${f_state} from ${display_menu_actual}`)
 	//out
+	if (display_menu_actual===0)
+	{
+		for (let i=0;i<display_menus.length;i++)
+		{
+			for (let j=0;j<display_menus[i].length;j++)
+			{
+				chrono_use_visibility(display_menus[i][j],false);
+			}
+		}
+	}
 	if (display_menu_actual===1)
 	{
 		chrono_clock_pause();
 		for (const v of display_menus[1])
 		{
-			v.style["opacity"]="0";
-			v.style["display"]="none";
+			chrono_use_visibility(v,false);
 		}
 	}
 	if (display_menu_actual===2)
@@ -400,8 +425,14 @@ function chrono_display_menu_switch(f_state)
 		chrono_options_read_all()//!
 		for (const v of display_menus[2])
 		{
-			v.style["opacity"]="0";
-			v.style["display"]="none";
+			chrono_use_visibility(v,false);
+		}
+	}
+	if (display_menu_actual===3)
+	{
+		for (const v of display_menus[3])
+		{
+			chrono_use_visibility(v,false);
 		}
 	}
 	
@@ -412,8 +443,7 @@ function chrono_display_menu_switch(f_state)
 	{
 		for (const v of display_menus[1])
 		{
-			v.style["opacity"]="1";
-			v.style["display"]="";
+			chrono_use_visibility(v,true);
 		}
 	}
 	if (display_menu_actual===2)
@@ -421,14 +451,19 @@ function chrono_display_menu_switch(f_state)
 		chrono_options_write_all()//!
 		for (const v of display_menus[2])
 		{
-			v.style["opacity"]="1";
-			v.style["display"]="";
+			chrono_use_visibility(v,true);
 		}
 	}
-	for (const v of display_menus[3])
+	if (display_menu_actual===3)
 	{
-		v.style["opacity"]="1";
-		v.style["display"]="";
+		for (const v of display_menus[3])
+		{
+			chrono_use_visibility(v,true);
+		}
+	}
+	for (const v of display_menus[display_menus.length-1])
+	{
+		chrono_use_visibility(v,true);
 	}
 }
 
@@ -700,7 +735,7 @@ function chrono_options_read_itm(f_doc_itm)
 function chrono_options_read_all()
 {
 	queue_elements=[];
-	let here_fathers=chrono_my_childs(display_options_itms_grandfather.children,".itm.queueelement");
+	let here_fathers=chrono_my_childs(display_options_itms_grandfather.children,".config.itm");
 	for (let i=0;i < here_fathers.length;i++)
 	{
 		let here_queue=chrono_options_read_itm(here_fathers[i]);
@@ -716,7 +751,7 @@ function chrono_options_read_all()
 function chrono_options_write_itm(f_queue,f_index)
 {
 	let here_newitm=document.createElement("div");
-	here_newitm.className="itm texter queueelement";
+	here_newitm.className="config itm texter";
 
 	{//delete button
 		let here_child=document.createElement("input");
@@ -827,6 +862,10 @@ function chrono_action_play()
 }
 
 
+function chrono_action_menu_change(f_switch)
+{
+	chrono_display_menu_switch(f_switch);
+}
 function chrono_action_menu_switch()
 {
 	if (display_menu_actual===2)

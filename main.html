@@ -22,7 +22,8 @@
 		
 		<!-- .menu .<menu name:> -->
 			<!-- :mclock -->
-			<!-- :moptions -->
+			<!-- :mconfig -->
+			<!-- :mchoice -->
 			<!-- ... -->
 			<!-- :mall -->
 		
@@ -42,7 +43,7 @@
 					<g class="menu mclock">
 						<path d="M 500 100 A 400 400 0 1 1 500 900 A 400 400 0 1 1 500 100" fill-opacity="0" stroke="#000f" stroke-width="2"/>
 					</g>
-					<g class="menu moptions">
+					<g class="menu mconfig mchoice">
 						<path d="M 100 100 L 900 100 L 900 900 L 100 900 Z" fill-opacity="0" stroke="#000f" stroke-width="2"/>
 					</g>
 
@@ -53,8 +54,16 @@
 					</g>
 					
 					<!-- buttons -->
-					<g class="menu mall">
-						<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="chrono_action_menu_switch()"/>
+					<g class="menu mclock">
+						<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="chrono_action_menu_change(2)"/>
+					</g>
+					<g class="menu mconfig">
+						<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 450 750 Z" onclick="chrono_action_menu_change(1)"/>
+						<!--<path class="style_color_c1 fill button" d="M 600 750 A 50 50 0 1 1 550 800 L 550 750 Z" onclick="chrono_action_menu_change(1)"/>-->
+						<path class="style_color_c1 fill button" d="M 200 750 L 300 750 L 250 850 Z" onclick="chrono_action_menu_change(3)"/>
+					</g>
+					<g class="menu mchoice">
+						<path class="style_color_c1 fill button" d="M 200 850 L 300 850 L 250 750 Z" onclick="chrono_action_menu_change(2)"/>
 					</g>
 					<g class="menu mclock">
 						<path class="style_color_c1 fill button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
@@ -98,10 +107,16 @@
 				</div>
 			</div>
 
-			<div class="square stext tomiddle  menu moptions"><!-- a square -->
+			<div class="square stext tomiddle  menu mconfig mchoice"><!-- a square -->
 				<div id="box_config_full">
 					<div id="box_config_common">
 						<div class="config category">
+							<div>
+								<!-- main -->
+								<button class="choice hover">
+								Categorie
+								</button>
+							</div>
 						</div>
 						<div class="config advance">
 							<label class="switch">
@@ -112,7 +127,7 @@
 
 					</div>
 					<!--<div id="itms">-->
-					<div id="box_config_itms">
+					<div id="box_config_itms" class="menu mconfig">
 						<!-- js will written here -->
 					</div>
 				</div>
@@ -127,6 +142,7 @@
 	<p id="msg_cat">
 		-
 	</p>
+		</br>
 	<p id="msg_the" class="neg magenta">
 		Chrono mais gratuit
 	</p>
