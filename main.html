@@ -60,20 +60,19 @@
 					<g>
 						<!-- buttons -->
 						<g class="menu mclock">
-							<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="chrono_action_menu_change(2)"/>
+							<path class="style_color_c1 fill  button open config" d="M 500 750 A 50 50 0 1 1 450 800 L 500 800 Z" onclick="menu_switch(2)"/>
 						</g>
 						<g class="menu mconfig">
-							<path class="style_color_c1 fill button options" d="M 500 750 A 50 50 0 1 1 450 800 L 450 750 Z" onclick="chrono_action_menu_change(1)"/>
-							<!--<path class="style_color_c1 fill button" d="M 600 750 A 50 50 0 1 1 550 800 L 550 750 Z" onclick="chrono_action_menu_change(1)"/>-->
-							<path class="style_color_c1 fill button" d="M 200 750 L 300 750 L 250 850 Z" onclick="chrono_action_menu_change(3)"/>
+							<path class="style_color_c1 fill  button close config" d="M 500 750 A 50 50 0 1 1 450 800 L 450 750 Z" onclick="menu_switch(1)"/>
+							<path class="style_color_c1 fill  button open choice" d="M 200 750 L 300 750 L 250 850 Z" onclick="menu_switch(3)"/>
 						</g>
 						<g class="menu mchoice">
-							<path class="style_color_c1 fill button" d="M 200 850 L 300 850 L 250 750 Z" onclick="chrono_action_menu_change(2)"/>
+							<path class="style_color_c1 fill  button close choice" d="M 200 850 L 300 850 L 250 750 Z" onclick="menu_switch(2)"/>
 						</g>
 						<g class="menu mclock">
-							<path class="style_color_c1 fill button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
-							<path class="style_color_c1 fill button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="chrono_action_play()"/>
-							<path class="style_color_c1 fill button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="chrono_action_play()"/>
+							<path class="style_color_c1 fill  button start" d="M 470 600 L 550 650 L 470 700 Z" onclick="play()"/>
+							<path class="style_color_c1 fill  button continue" d="M 470 600 L 550 650 L 470 700 Z" onclick="play()"/>
+							<path class="style_color_c1 fill  button pause" d="M 460 610 L 460 690 L 490 690 L 490 610 Z M 510 610 L 510 690 L 540 690 L 540 610" onclick="play()"/>
 						</g>
 					</g>
 				</svg>
@@ -135,6 +134,10 @@
 					<!--<div id="itms">-->
 					<div id="box_config_itms" class="menu mconfig">
 						<!-- js will written here -->
+					</div>
+					<div id="box_choice_itms" class="menu mchoice">
+						<div class="itm">
+						</div>
 					</div>
 				</div>
 			</div>

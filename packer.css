@@ -46,7 +46,6 @@ background-color: #000;/*dbug*/
 			}
 			.ground.fore {
 				z-index: 5;
-				outline: #ff0 double 10px;
 			}
 			svg {
 				position: absolute;
@@ -108,7 +107,7 @@ background-color: #000;/*dbug*/
 
 	/* config box */
 	#box_config_full {
-		outline: #0f0 dashed 5px;
+		outline: #0f0 double 5px;
 		width: 80%;
 		margin-bottom: 20%;
 		height: 60%;
@@ -164,6 +163,14 @@ background-color: #000;/*dbug*/
 			/* item list */
 			.itm {
 				outline: #f00 dashed 3px;
+				width: 100cw;
+				height: 5svh;
+			}
+		}
+		#box_choice_itms {
+			/* item list */
+			.itm {
+				outline: #00f dashed 3px;
 				width: 100cw;
 				height: 5svh;
 			}

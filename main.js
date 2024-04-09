@@ -101,6 +101,14 @@ class Queue {
 }
 
 
+class QueueChoice {
+	constructor(f_queue,f_name) {
+		this.m_queue=f_queue;
+		this.m_name=f_name;
+	}
+}
+
+
 
 function chrono_queue_next()
 {
@@ -850,7 +858,42 @@ function chrono_options_write_all()
 
 //--- functions/action ---
 
-function chrono_action_play()
+/**
+ * switch menu
+ * @param {Int} f_switch the menu state to go
+ */
+function menu_switch(f_switch)
+{
+	chrono_display_menu_switch(f_switch);
+}
+/**
+ * add a queue element for the config menu
+ */
+function config_add()
+{
+	queue_elements.push(new Queue(60000,1,true,"NEW"));
+	chrono_options_write_all();
+}
+
+/**
+ * remove a queue element from config menu
+ * @param {Int} f_i the index of the element to remove
+ */
+function config_remove(f_i)
+{
+	delete queue_elements.splice(f_i,1);
+	chrono_options_write_all();
+}
+
+function config_load()
+{
+	//indev
+}
+
+/**
+ * play the time
+ */
+function act_play()
 {
 	if (timer_paused)
 		chrono_clock_continue();
@@ -861,34 +904,11 @@ function chrono_action_play()
 			chrono_next();//start
 }
 
-
-function chrono_action_menu_change(f_switch)
-{
-	chrono_display_menu_switch(f_switch);
-}
-function chrono_action_menu_switch()
-{
-	if (display_menu_actual===2)
-		chrono_display_menu_switch(1);
-	else
-		chrono_display_menu_switch(2);
-}
-
-function chrono_action_menu_queue_add()
-{
-	queue_elements.push(new Queue(60000,1,true,"NEW"));
-	chrono_options_write_all();
-}
-
-function chrono_action_menu_queue_remove(f_i)
-{
-	delete queue_elements.splice(f_i,1);
-	chrono_options_write_all();
-}
-
-
-
-function chrono_action_press(f_event)
+/**
+ * when any key is pressed, to trigger potential keybind
+ * @param {key} f_event the event key pressed
+ */
+function act_press(f_event)
 {
 	let here_key=String(f_event.key);
 
@@ -897,12 +917,6 @@ function chrono_action_press(f_event)
 		chrono_action_play();
 	}
 }
-
-//function chrono_action_back3()
-//{//go to the begin
-//	chrono_clock_pause();
-//}
-
 
 //--- launcher ---
 
