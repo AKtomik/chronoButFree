@@ -957,6 +957,22 @@ function play()
 }
 
 /**
+ * going after
+ */
+function after()
+{
+	chrono_next();
+}
+
+/**
+ * going before
+ */
+function before()
+{
+	timer_stamp_begin=Date.now();//begin
+}
+
+/**
  * when any key is pressed, to trigger potential keybind
  * @param {key} f_event the event key pressed
  */
