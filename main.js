@@ -997,4 +997,4 @@ queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0",tru
 //queue_elements.push(new Queue(360000,2,true,"grande pause",true,false));
 
 
-cat_add("prêt !","neg magenta bold");
+cat_add("prêt !","neg magenta bold");//1000
