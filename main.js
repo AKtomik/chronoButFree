@@ -11,6 +11,8 @@ const sett_fillContrary=false;//force fill to be contrary to the last (avoid)
 
 const sett_menu_maxqueue=7;
 
+const sett_sound_lasts=5;
+
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
 /**
@@ -31,6 +33,12 @@ let timer_stamp_end=0.;//the end timestamp (when paused)
 let timer_span_gap=0.;//the gap (if has paused) timestamp
 let timer_reverse=false;//if countdown, else countup
 let timer_id=0;
+
+let timer_tweek_sounds=false;
+let timer_tweek_sound_half=false;
+let timer_tweek_sound_end=false;
+let timer_tweek_sound_last=false;
+
 
 let display_timer_is_m=true;
 let display_timer_is_r=true;
@@ -74,6 +82,13 @@ let display_menus=[
 ]
 
 
+let audio_end=new Audio('source/sounds/beep_end.wav');
+let audio_last=new Audio('source/sounds/beep_last.wav');
+let audio_middle=new Audio('source/sounds/beep_middle.wav');
+
+
+let config_volume=100;
+
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
 
 
@@ -84,29 +99,32 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#000f") {
-
-		this.m_remain_loop=f_sett_loop;
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#000f", f_sound_end=false, f_sound_last=false, f_sound_half=false) {
 		
+		//change
+		this.m_remain_loop=f_sett_loop;
+
+		//main settings
 		this.m_sett_loop=f_sett_loop;
 		this.m_sett_time=f_time_max;
 		this.m_sett_rstrip=f_sett_rstrip;
 		
-		this.m_display_name=f_display_name;
-		this.m_display_wise=f_display_wise;
-		this.m_display_fill=f_display_fill;
-		this.m_display_c1=f_display_c1;
-		this.m_display_c2=f_display_c2;
+		//display parameters
+		this.m_display_name=f_display_name;//the string name
+		this.m_display_wise=f_display_wise;//if border going clockwise
+		this.m_display_fill=f_display_fill;//if border going to fill
+		this.m_display_c1=f_display_c1;//the color for fore things
+		this.m_display_c2=f_display_c2;//the color for back things
+
+		//sounds paramters
+		this.m_sounds=(f_sound_end || f_sound_last || f_sound_half);
+		this.m_sound_end=f_sound_end;//end bip
+		this.m_sound_last=f_sound_last;//end bip
+		this.m_sound_half=f_sound_half;//half bip
+
 	}
 }
 
-
-class QueueChoice {
-	constructor(f_queue,f_name) {
-		this.m_queue=f_queue;
-		this.m_name=f_name;
-	}
-}
 
 
 
@@ -276,6 +294,12 @@ function chrono_clock_start(f_end=0)
 		timer_span_max=f_end-1;//end
 		timer_reverse=f_end>0;
 
+		//settings & parameters
+		timer_tweek_sounds=chrono_queue_here().m_sounds;
+		timer_tweek_sound_half=chrono_queue_here().m_sound_half;
+		timer_tweek_sound_end=chrono_queue_here().m_sound_end;
+		timer_tweek_sound_last=chrono_queue_here().m_sound_last;
+
 		if (timer_reverse)
 		{
 			cat_add(`${chrono_queue_here().m_display_name} : ${f_end/1000}s`,"yellow");
@@ -381,7 +405,34 @@ function chrono_countdown_recursive(f_id)
 {
 	if (timer_id===f_id)
 	{
-		timer_span_fresh_ms = timer_stamp_begin + timer_span_max - Date.now();//ms
+		here_new_fresh_ms = timer_stamp_begin + timer_span_max - Date.now();//ms
+		if (timer_tweek_sounds)
+		{
+			if (timer_tweek_sound_end && here_new_fresh_ms<0)
+			{
+				//bip_end
+				audio_end.play(config_volume);
+				//cat_add("play end");
+			}
+			else if (timer_tweek_sound_last && Math.floor(here_new_fresh_ms/1000)<sett_sound_lasts)
+			{
+				if (Math.floor(here_new_fresh_ms/1000) != Math.floor(timer_span_fresh_ms/1000))
+				{
+					//bip_last
+					audio_last.play(config_volume);
+					//cat_add(`play last ${Math.floor(here_new_fresh_ms/1000)+1}s`);
+				}
+			}
+			else if (timer_tweek_sound_half && (here_new_fresh_ms<(timer_span_max/2)) && (timer_span_fresh_ms>(timer_span_max/2)))
+			{
+				//bip_middle
+				audio_middle.play(config_volume);
+				//cat_add("play middle");
+			}
+			//timer_span_fresh_ms
+			//here_new_fresh_ms
+		}
+		timer_span_fresh_ms = here_new_fresh_ms;
 		chrono_display_timer_refresh();
 		if (timer_span_fresh_ms<0)
 		{
@@ -936,9 +987,9 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00"));
-queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0"));
-queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0"));
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00",true,true,true));
+queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0",true,true,true));
+queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0",true,true,true));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
