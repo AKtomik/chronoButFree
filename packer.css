@@ -107,7 +107,7 @@ background-color: #000;/*dbug*/
 
 	/* config box */
 	#box_config_full {
-		outline: #0f0 double 5px;
+		/*outline: #0f0 double 5px;*/
 		width: 80%;
 		margin-bottom: 20%;
 		height: 60%;
@@ -116,7 +116,7 @@ background-color: #000;/*dbug*/
 
 		#box_config_common {
 			height: 30%;
-			outline: #f0f dashed 5px;
+			/*outline: #f0f dashed 5px;*/
 			
 			display: flex;
 
@@ -126,7 +126,7 @@ background-color: #000;/*dbug*/
 			
 			.config {
 				height: 100%;
-				outline: #ff0 dashed 3px;
+				/*outline: #ff0 dashed 3px;*/
 				&.category {
 					width: 60%;
 
@@ -162,15 +162,27 @@ background-color: #000;/*dbug*/
 		#box_config_itms {
 			/* item list */
 			.itm {
-				outline: #f00 dashed 3px;
+				/*outline: #f00 dashed 3px;*/
 				width: 100cw;
 				height: 5svh;
+				input {
+					height: 4svh;
+					margin: 0 1svh;
+
+					&[type=text] {
+						height: 3.5svh;
+					}
+					&[type=button] {
+						height: 4svh;
+						width: 4svh;
+					}
+				}
 			}
 		}
 		#box_choice_itms {
 			/* item list */
 			.itm {
-				outline: #00f dashed 3px;
+				/*outline: #00f dashed 3px;*/
 				width: 100cw;
 				height: 5svh;
 			}

@@ -11,7 +11,7 @@ const sett_fillContrary=false;//force fill to be contrary to the last (avoid)
 
 const sett_menu_maxqueue=7;
 
-const sett_sound_lasts=5;
+const sett_sound_lasts=4;
 
 //--- initialization ---
 //the script is loaded when the page is totaly loaded
@@ -65,6 +65,7 @@ let display_button_start=document.querySelectorAll(".button.start")[0];
 let display_button_pause=document.querySelectorAll(".button.pause")[0];
 let display_button_continue=document.querySelectorAll(".button.continue")[0];
 
+//refresh color
 let display_texts_c1_fill=document.querySelectorAll(".style_color_c1.fill");
 let display_texts_c1_stroke=document.querySelectorAll(".style_color_c1.stroke");
 let display_texts_c1_text=document.querySelectorAll(".style_color_c1.text");
@@ -855,7 +856,7 @@ function chrono_options_write_itm(f_queue,f_index)
 	{//type name
 		let here_child=document.createElement("input");
 		here_child.type="text";
-		here_child.className="itm_name";
+		here_child.className="itm_name is_rounded";
 		here_child.minLength="2";
 		here_child.maxLength="10";
 		here_child.size="10";
@@ -987,7 +988,7 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f00",true,true,true));
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f30",true,true,true));
 queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0",true,true,true));
 queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0",true,true,true));
 
