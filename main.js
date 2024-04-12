@@ -61,9 +61,9 @@ let display_text_comment=document.getElementById("text_comment");
 let display_vector_line=document.getElementById("vector_dynamic_line");
 let display_vector_arc=document.getElementById("vector_dynamic_arc");
 
-let display_button_start=document.querySelectorAll(".button.start")[0];
-let display_button_pause=document.querySelectorAll(".button.pause")[0];
-let display_button_continue=document.querySelectorAll(".button.continue")[0];
+let display_button_started=document.querySelectorAll(".button.started");
+let display_button_paused=document.querySelectorAll(".button.paused");
+let display_button_stoped=document.querySelectorAll(".button.stoped");
 
 //refresh color
 let display_texts_c1_fill=document.querySelectorAll(".style_color_c1.fill");
@@ -316,6 +316,22 @@ function chrono_clock_start(f_end=0)
 	}
 }
 
+function chrono_clock_stop()
+{
+	chrono_clock_pause();
+	timer_started=false;
+	timer_paused=false;
+
+	timer_span_fresh_ms=0.;
+	timer_stamp_begin=0.;
+	timer_span_max=0.;
+	timer_stamp_end=0.;
+	timer_span_gap=0.;
+	timer_reverse=false;
+	timer_id=0;
+	chrono_display_timer_init();
+}
+
 function chrono_clock_pause()
 {
 	if (timer_started && !timer_paused)
@@ -545,6 +561,8 @@ function chrono_display_timer_init()
 	display_timer_is_r=!(timer_reverse && timer_span_fresh_ms>0);
 	display_timer_is_m=!(timer_span_fresh_ms>60000);
 
+	display_text_title.innerHTML="&#60;INDEV&#62;"
+	display_text_comment.innerHTML="&#60;zero&#62;"
 	chrono_display_color("#000","#fff");
 	chrono_display_timer_refresh();
 }
@@ -719,22 +737,46 @@ function chrono_display_timer_refresh()
 
 
 	//change
-	display_button_pause.style.margin="10px";
+	//display_button_pause.style.margin="10px";
 	if (timer_started)
 	{
-		display_button_start.style.display="none";
+		for (const v of display_button_stoped)
+		{
+			v.style.display="none";
+		}
 		if (timer_paused)
 		{
-			display_button_continue.style.display="";
-			display_button_pause.style.display="none";
+			for (const v of display_button_started)
+			{
+				v.style.display="none";
+			}
+			for (const v of display_button_paused)
+			{
+				v.style.display="";
+			}
 		} else {
-			display_button_continue.style.display="none";
-			display_button_pause.style.display="";
+			for (const v of display_button_paused)
+			{
+				v.style.display="none";
+			}
+			for (const v of display_button_started)
+			{
+				v.style.display="";
+			}
 		}
 	} else {
-		display_button_continue.style.display="none";
-		display_button_pause.style.display="none";
-		display_button_start.style.display="";
+		for (const v of display_button_started)
+		{
+			v.style.display="none";
+		}
+		for (const v of display_button_paused)
+		{
+			v.style.display="none";
+		}
+		for (const v of display_button_stoped)
+		{
+			v.style.display="";
+		}
 	}
 }
 
@@ -948,12 +990,23 @@ function config_load(f_newqueue)
 function play()
 {
 	if (timer_paused)
+	{
+		console.info("user action : time continue");
 		chrono_clock_continue();
+	}
 	else
+	{
 		if (timer_started)
+		{
+			console.info("user action : time pause");
 			chrono_clock_pause();
+		}
 		else
+		{
+			console.info("user action : time start");
 			chrono_next();//start
+		}
+	}
 }
 
 /**
@@ -961,6 +1014,7 @@ function play()
  */
 function after()
 {
+	console.info("user action : going after");
 	chrono_next();
 }
 
@@ -969,7 +1023,23 @@ function after()
  */
 function before()
 {
+	console.info("user action : going before");
 	timer_stamp_begin=Date.now();//begin
+}
+/**
+ * going to the begin
+ */
+function kill()
+{
+	for (const v of queue_elements)
+	{
+		v.m_remain_loop=v.m_sett_loop;
+	}
+	queue_index=-1;
+	chrono_clock_stop();
+	//chrono_clock_o();
+	//chrono_next();
+	//chrono_clock_pause();
 }
 
 /**
@@ -979,10 +1049,27 @@ function before()
 function keypress(f_event)
 {
 	let here_key=String(f_event.key);
+	console.log(here_key);
 
-	if (here_key===" ")
+	if (display_menu_actual===1)
 	{
-		play();
+		// && !timer_paused
+		if (timer_started)
+		{
+			if (here_key==="ArrowLeft")
+			{
+				before();
+			}
+			if (here_key==="ArrowRight")
+			{
+				after();
+			}
+		}
+
+		if (here_key===" ")
+		{
+			play();
+		}
 	}
 }
 
@@ -991,7 +1078,7 @@ function keypress(f_event)
 cat_add(`fonctions en ${Date.now() - span_loading_begin} ms`,"neg gray");
 
 chrono_display_menu_switch(1);
-chrono_display_timer_init();
+chrono_clock_stop();
 
 //queue_elements.push(new Queue(4500,1,true,"123456789123456789123456789123456789123456789",false,true));
 
@@ -1004,9 +1091,9 @@ chrono_display_timer_init();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#fffa","#f30",true,true,true));
-queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#fffa","#fa0",true,true,true));
-queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#fffa","#0a0",true,true,true));
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#ffff","#f30",true,true,true));
+queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#ffff","#fa0",true,true,true));
+queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#ffff","#0a0",true,true,true));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));
