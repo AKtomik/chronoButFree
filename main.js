@@ -63,6 +63,7 @@ let display_vector_arc=document.getElementById("vector_dynamic_arc");
 
 let display_button_started=document.querySelectorAll(".button.started");
 let display_button_paused=document.querySelectorAll(".button.paused");
+let display_button_finished=document.querySelectorAll(".button.finished");
 let display_button_stoped=document.querySelectorAll(".button.stoped");
 
 //refresh color
@@ -88,7 +89,7 @@ let audio_last=new Audio('source/sounds/beep_last.wav');
 let audio_middle=new Audio('source/sounds/beep_middle.wav');
 
 
-let config_volume=100;
+let config_volume=10000;
 
 cat_add(`variables en ${Date.now() - span_subloading_begin} ms`,"neg gray");
 
@@ -100,7 +101,8 @@ let queue_elements=[]
 let queue_index=-1
 
 class Queue {
-	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=false,f_display_wise=true,f_display_c1="#ffff",f_display_c2="#000f", f_sound_end=false, f_sound_last=false, f_sound_half=false) {
+	//full constructor
+	constructor(f_time_max,f_sett_loop,f_sett_rstrip=false, f_display_name="timer",f_display_fill=true,f_display_wise=false,f_display_c1="#ffffff",f_display_c2="#000000", f_sound_end=false, f_sound_last=false, f_sound_half=false) {
 		
 		//change
 		this.m_remain_loop=f_sett_loop;
@@ -824,12 +826,15 @@ function chrono_options_read_itm(f_doc_itm)
 	let here_name_txt=chrono_my_child(f_doc_itm.children,".itm_name").value;
 	here_name_txt=here_name_txt.toUpperCase();
 
+	let here_color_txt=chrono_my_child(f_doc_itm.children,".itm_color").value;
 
 	return new Queue(
 	here_time_int,
 	here_iter_int,
 	false,
-	here_name_txt
+	here_name_txt,
+	undefined, undefined,//!
+	undefined, here_color_txt
 	);
 	//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
 }
@@ -841,8 +846,6 @@ function chrono_options_read_all()
 	for (let i=0;i < here_fathers.length;i++)
 	{
 		let here_queue=chrono_options_read_itm(here_fathers[i]);
-		here_queue.m_display_c1="fffa";
-		here_queue.m_display_c2="000f";
 		queue_elements.push(here_queue);
 		//queue_elements.push(new Queue(4500,1,true,"EXERCICE",false,true,"#faa","#f00"));
 	}
@@ -904,6 +907,16 @@ function chrono_options_write_itm(f_queue,f_index)
 		here_child.size="10";
 
 		here_child.value=f_queue.m_display_name;
+		
+		here_newitm.appendChild(here_child);
+	}
+
+	{//type color
+		let here_child=document.createElement("input");
+		here_child.type="color";
+		here_child.className="itm_color";
+
+		here_child.value=f_queue.m_display_c2;
 		
 		here_newitm.appendChild(here_child);
 	}
@@ -982,6 +995,7 @@ function config_remove(f_i)
 function config_load(f_newqueue)
 {
 	queue_elements=f_newqueue;
+	menu_switch(2);
 }
 
 /**
@@ -1091,9 +1105,9 @@ chrono_clock_stop();
 //queue_elements.push(new Queue(100,10,false,"a",false,true,"#fffa","#f0f"));
 
 //sport
-queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#ffff","#f30",true,true,true));
-queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#ffff","#fa0",true,true,true));
-queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#ffff","#0a0",true,true,true));
+queue_elements.push(new Queue(45000,1,true,"EXERCICE",false,true,"#ffff","#f03000",true,true,true));
+queue_elements.push(new Queue(15000,10,true,"REPOS",true,true,"#ffff","#f0a000",true,true,true));
+queue_elements.push(new Queue(360000,2,true,"PAUSE",true,true,"#ffff","#00a000",true,true,true));
 
 //queue_elements.push(new Queue(45000,1,true,"exercice",false,true));
 //queue_elements.push(new Queue(15000,3,true,"repos",true,false));

@@ -172,7 +172,7 @@ background-color: #000;/*dbug*/
 					&[type=text] {
 						height: 3.5svh;
 					}
-					&[type=button] {
+					&[type=button], &[type=color] {
 						height: 4svh;
 						width: 4svh;
 					}

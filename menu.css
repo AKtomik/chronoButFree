@@ -57,12 +57,12 @@
 
 /* buttons */
 input {
-	/*padding: none;
+	padding: none;
 	box-shadow: none;
 	border: none;
-	margin: none;*/
+	margin: none;
 	
-	/*outline: solid 3px #f00;*/
+	/*outline: solid max(3px,0.3vmin) #f00;*/
 	/*box-shadow: 0px 0px 5px #61C5FA;*/
 	/*border:1px solid #5AB0DB;*/
 	outline: none;
@@ -81,26 +81,32 @@ input {
 	&[type="button"] {
 		
 		/*mix-blend-mode: difference;*/
-		border:#eee8 5px outset;
+		border:#3333 5px outset;
 		&:hover,&:focus {
 			border-style:ridge;
-			border-color:#eeeb;
+			border-color:#3338;
 		}
 		&:active {
 			border-style:groove;
-			border-color:#eeef;
+			border-color:#333f;
 		}
 	}
 	&[type="text"] {
 
 		/*mix-blend-mode: difference;*/
-		isolation:inherit;
-		border:#eee8 3px solid;
+		/*isolation:inherit;*/
+		border:#3333 max(3px,0.3vmin) solid;
 		&:hover {
-			border-color:#eeeb;
+			border-color:#3338;
 		}
 		&:focus {
-			border-color:#eeef;
+			border-color:#333f;
 		}
+	}
+	
+	&[type="color"] {
+		/*border:#3333 max(3px,0.3vmin) solid;*/
+		/*outline: red solid 5px;*/
+		border: none;
 	}
 }
