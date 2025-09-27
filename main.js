@@ -563,8 +563,8 @@ function chrono_display_timer_init()
 	display_timer_is_r=!(timer_reverse && timer_span_fresh_ms>0);
 	display_timer_is_m=!(timer_span_fresh_ms>60000);
 
-	display_text_title.innerHTML="&#60;INDEV&#62;"
-	display_text_comment.innerHTML="&#60;zero&#62;"
+	display_text_title.innerHTML=" "
+	display_text_comment.innerHTML="play pour commencer"
 	chrono_display_color("#000","#fff");
 	chrono_display_timer_refresh();
 }
